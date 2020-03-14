@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const SavingsSchema = new mongoose.Schema({
-    owner:{type:Schema.Types.ObjectId, ref:'User'},
+    owner:{type:mongoose.Schema.Types.ObjectId, ref:'User'},
     balance:{type:Number, trim:true, default:0.00},
-    accountNumber:{type:Number, unique:true, default:0}
+    accountNumber:{type:String, unique:true, default:''}
 });
 
-module.exports = mongoose.model('Comment', SavingsSchema);
+module.exports = mongoose.model('Savings', SavingsSchema);
