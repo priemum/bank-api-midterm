@@ -2,6 +2,7 @@ const User = require('../models/User');
 const { validationResult } = require('express-validator');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
+require('../../accounts/utils/accountUtils')
 
 module.exports = {
     register: (req, res, next) => {
@@ -22,12 +23,12 @@ module.exports = {
 
                 newUser
                 .save()
-                // .then((_id) => {
-                //     const checking = new Checking();
-                //     checking.owner = _id;
-                //     checking.accountNumber = 
-                //     comment.save()
-                // })
+                .then((_id) => {
+                    const checking = new Checking();
+                    checking.owner = _id;
+                    checking.accountNumber = 
+                    comment.save()
+                })
                 .then(user => {
                     req.login(user, err => {
                         if (err) {

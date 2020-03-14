@@ -23,7 +23,22 @@ const uniqueAccountNumber = () => {
     Checking.find({accountNumber})
         .then(acct => {
             if(acct){
-                acct
+                uniqueAccountNumber();
+            } else {
+                Savings.find({accountNumber})
+                .then(acct => {
+                    if(acct){
+                        uniqueAccountNumber();
+                    } else {
+                        return acctNum;
+                    }
+                })
             }
         })
+};
+
+module.exports = {
+    randomGen,
+    generateAccountNumber,
+    uniqueAccountNumber
 }
