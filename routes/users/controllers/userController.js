@@ -22,6 +22,12 @@ module.exports = {
 
                 newUser
                 .save()
+                // .then((_id) => {
+                //     const checking = new Checking();
+                //     checking.owner = _id;
+                //     checking.accountNumber = 
+                //     comment.save()
+                // })
                 .then(user => {
                     req.login(user, err => {
                         if (err) {
