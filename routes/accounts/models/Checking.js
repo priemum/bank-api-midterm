@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const accountUtils = require('../utils/accountUtils');
 
 const CheckingSchema = new mongoose.Schema({
     owner:{type:mongoose.Schema.Types.ObjectId, ref:'User'},

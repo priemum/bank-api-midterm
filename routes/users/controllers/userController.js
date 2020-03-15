@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Checking = require('../../accounts/models/Checking');
+const Savings = require('../../accounts/models/Savings');
 const { validationResult } = require('express-validator');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
@@ -25,10 +26,19 @@ module.exports = {
                 newUser
                 .save()
                 .then((user) => {
+                    //create a checking account
                     const checking = new Checking();
                     checking.owner = user._id;
-                    console.log(accountUtils.uniqueAccountNumber);
+                    checking.accountNumber = accountUtils.generateAccountNumber();
                     checking.save()
+                    return user
+                })
+                .then((user) => {
+                    //create a savings account
+                    const savings = new Savings();
+                    savings.owner = user._id;
+                    savings.accountNumber = accountUtils.generateAccountNumber();
+                    savings.save()
                     return user
                 })
                 .then(user => {
@@ -47,7 +57,8 @@ module.exports = {
                     return next(err);
                 });
             }
-        });
+        })
+        .catch(err => reject(err));
     },
     
     updateProfile: (params, id) => {
