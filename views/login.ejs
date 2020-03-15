@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/stylesheets/login.css" type="text/css">
+    <title>Log In</title>
+</head>
+<body>
+    <div id="app">
+        <div id="header">
+            <div id="nav">
+                <a href="javascript:history.back()"><h2>Back</h2></a>
+            </div>
+            <div id="title">
+                <h1>Log In</h1>
+            </div>
+            <div id="menu">
+                <h2>Menu</h2>
+            </div>
+            <div id="menuOptions">
+                <a href="/"><div>Home</div></a>
+                <a href="/api/users/register"><div>Register</div></a>
+            </div>
+        </div>
+        <div id="main">
+            <div id="form">
+                <form role="form" method="POST" action="/api/users/login">
+                        <h2>Please log in</h2>
+                        <hr>
+                        <div class="form-group">
+                                    <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address">
+                        </div>
+                        <div class="form-group">
+                                    <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password">
+                        </div>
+                        <hr>
+                        <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Log In">
+                        </div>
+                        </div>
+                </form>
+            </div>
+    <%- include('./partials/scripts') %>
+        </div>
+    </div>
+    <!-- <script src="./main.js"></script> -->
+    <!-- <script src="./cHistory.js"></script> -->
+</body>
+</html>

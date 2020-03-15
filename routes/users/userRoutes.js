@@ -12,11 +12,11 @@ router.get('/register', (req, res) => {
 });
 router.post('/register', userValidation, userController.register);
 
-router.get('/login', (req, res) => {
-  return res.render('auth/login', { errors: req.flash('errors') });
-});
 
 //login routes
+router.get('/login', (req, res) => {
+  return res.render('login', { errors: req.flash('errors') });
+});
 router.post('/login', userController.login);
 
 //profile routes
