@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/stylesheets/login.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/login-register.css" type="text/css">
     <title>Log In</title>
 </head>
 <body>
@@ -29,24 +29,26 @@
                 <form role="form" method="POST" action="/api/users/login">
                         <h2>Please log in</h2>
                         <hr>
-                        <div class="form-group">
-                                    <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address">
+                        <br>
+                        <div>
+                            <input type="email" name="email" id="email"placeholder=" Email Address">
                         </div>
-                        <div class="form-group">
-                                    <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password">
+                        <br>
+                        <div>
+                            <input type="password" name="password" id="password" placeholder=" Password">
                         </div>
+                        <br>
                         <hr>
+                        <br>
                         <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Log In">
+                        <div>
+                            <input type="submit" value="Log In">
                         </div>
                         </div>
                 </form>
             </div>
-    <%- include('./partials/scripts') %>
         </div>
     </div>
-    <!-- <script src="./main.js"></script> -->
-    <!-- <script src="./cHistory.js"></script> -->
+    <%- include('../partials/scripts') %>
 </body>
 </html>

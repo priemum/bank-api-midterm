@@ -7,9 +7,9 @@ module.exports = {
     options:(req, res) => {
         if(req.isAuthenticated()){
             return res.render('auth/options');
-        // }else {
-        //     return res.redirect('/fail');
-        // };
-        }
+        }else {
+            return res.redirect('/fail');
+        };
+        
     }
 } 

@@ -5,24 +5,26 @@
     text-decoration: none;
 }
 
+
 #app {
+    height: 100vh;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 9fr;
+    grid-template-rows: .5fr .5fr 9fr;
 }
 
 #header {
-    grid-row: 1/2 !important; 
-    display: grid !important;
-    grid-column: 1fr 1fr 1fr !important;
-    grid-template-rows: 1fr !important;
-    background-color: dodgerblue !important;
+    grid-row: 1/2;
+    display: grid;
+    grid-column: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    background-color: dodgerblue;
+    color: rgb(67, 80, 93);
 }
 
 #nav {
     grid-column: 1/2;
     grid-row: 1/2;
-    display: inline-block;
     text-align: left;
     padding: 15px 0 10px 10px;
 }
@@ -30,7 +32,6 @@
 #title {
     grid-column: 2/3;
     grid-row: 1/2;
-    display: inline-block;
     text-align: center;
     padding: 10px 0 10px 0;
 }
@@ -38,7 +39,6 @@
 #menu {
     grid-column: 3/4;
     grid-row: 1/2;
-    display: inline-block;
     text-align: right;
     padding: 15px 10px 10px 0;
 }
@@ -56,43 +56,26 @@
     z-index: 5;
 }
 
+
 #main {
-    grid-row: 2/3;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-}
-
-#options {
-    align-self: center;
-    justify-self: center;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(5, 1fr);
-}
-
-.option {
-    padding: 20px;
-    border: 1px solid grey;
-    text-align: center;
-}
-
-#checking {
-    grid-row: 1/2;
-}
-
-#savings {
-    grid-row: 2/3;
-}
-
-#transfer {
     grid-row: 3/4;
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
 }
 
-#debtCred {
-    grid-row: 4/5;
+#form {
+    grid-row: 2/4;
+    grid-column: 2/3;
+    width: 300px;
+    font-size: 25px;
+    justify-self: center;
+    align-content: center;
+    justify-content: center;
 }
 
-#sendMoney {
-    grid-row: 5/6;
+input {
+    font-size: 25px;
+    border-radius: 15%;
 }

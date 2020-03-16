@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
+// const passport = require('passport');
 require('../../lib/passport');
 
 const userController = require('./controllers/userController');
@@ -8,15 +8,13 @@ const userValidation = require('./utils/userValidation');
 
 // register routes
 router.get('/register', (req, res) => {
-  res.render('auth/register', { errors: req.flash('errors') });
+  res.render('users/register', { errors: req.flash('errors') });
 });
 router.post('/register', userValidation, userController.register);
 
 
 //login routes
-router.get('/login', (req, res) => {
-  return res.render('login', { errors: req.flash('errors') });
-});
+router.get('/login', userController.loginPage);
 router.post('/login', userController.login);
 
 //profile routes
@@ -63,5 +61,8 @@ router.put('/update-password', userController.updatePassword);
 //       return res.redirect('/api/users/update-profile');
 //     });
 // });
+
+//logout user
+router.get('/logout', userController.logout);
 
 module.exports = router;

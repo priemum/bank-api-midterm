@@ -48,7 +48,7 @@ module.exports = {
                             .status(400)
                             .json({ confirmation: false, message: err });
                         } else {
-                            res.redirect('/');
+                            res.redirect('/auth/options');
                             next();
                         }
                     });
@@ -144,9 +144,20 @@ module.exports = {
         });
     },
 
+    loginPage:(req, res) => {
+        return res.render('users/login', { errors: req.flash('errors') });
+    },
+
     login: passport.authenticate('local-login', {
         successRedirect: ('/auth/options'),
         failureRedirect: '/api/users/login',
         failureFlash: true
-    })
+    }),
+
+    logout:(req, res) => {
+        req.session.destroy();
+        console.log('logout ', req.session);
+        req.logout();
+        return res.redirect('/');
+    }
 }

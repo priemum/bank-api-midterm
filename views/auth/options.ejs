@@ -11,11 +11,20 @@
     <div id="app">
         <div id="header">
             <div id="nav">
+                <a href="javascript:history.back()"><h2>Back</h2></a>
             </div>
             <div id="title">
                 <h1>Options</h1>
             </div>
             <div id="menu">
+                <h2>Menu</h2>
+            </div>
+            <div id="menuOptions">
+                <a href="/"><div>Home</div></a>
+                <a href="/api/users/register"><div>Register</div></a>
+                <form action="/api/users/logout">
+                    <button type="submit">Logout</button>
+                </form>
             </div>
         </div>
         <div id="main">
@@ -40,9 +49,14 @@
                         <h2>Debit / Credit</h2>
                     </div>
                 </a>
+                <a href="./debtCred.html">
+                    <div id="sendMoney" class="option">
+                        <h2>Send Money</h2>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
-    
+    <%- include('../partials/scripts')  %> 
 </body>
 </html>
