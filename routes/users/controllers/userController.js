@@ -60,6 +60,21 @@ module.exports = {
         })
         .catch(err => reject(err));
     },
+
+    profilePage: (req, res, next) => {
+        if (req.isAuthenticated()) {
+            return res.render('auth/profile');
+        } else {
+            return res.send('Unauthorized');
+        }
+    },
+
+    updateProfilePage: (req, res) => {
+        if (req.isAuthenticated()) {
+            return res.render('auth/update-profile');
+        }
+        return res.redirect('/');
+    },
     
     updateProfile: (params, id) => {
         const {
@@ -130,7 +145,7 @@ module.exports = {
     },
 
     login: passport.authenticate('local-login', {
-        successRedirect: '/',
+        successRedirect: ('/auth/options'),
         failureRedirect: '/api/users/login',
         failureFlash: true
     })
