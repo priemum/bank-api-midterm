@@ -49,7 +49,7 @@ module.exports = {
                             .json({ confirmation: false, message: err });
                         } else {
                             res.redirect('/auth/options');
-                            next();
+                            // next();
                         }
                     });
                 })
