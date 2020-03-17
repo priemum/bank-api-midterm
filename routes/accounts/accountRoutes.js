@@ -9,4 +9,7 @@ const accountController = require('./controllers/accountController');
 //render options page
 router.get('/options', accountController.options);
 
+//render debit and credit page
+router.get('/creditDebit', accountController.creditDebit);
+
 module.exports = router;

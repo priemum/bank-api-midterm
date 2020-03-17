@@ -10,6 +10,14 @@ module.exports = {
         }else {
             return res.redirect('/fail');
         };
-        
+    },
+
+    //render weather results page
+    creditDebit:(req, res) => {
+        if(req.isAuthenticated()){
+            return res.render('auth/creditDebit');
+        }else {
+            return res.redirect('/fail');
+        };
     }
 } 

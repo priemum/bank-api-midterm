@@ -3,8 +3,8 @@ const accountUtils = require('../utils/accountUtils');
 
 const CheckingSchema = new mongoose.Schema({
     owner:{type:mongoose.Schema.Types.ObjectId, ref:'User'},
-    balance:{type:Number, trim:true, default:0.00},
-    accountNumber:{type:String, unique:true, default:''}
+    accountNumber:{type:String, unique:true, default:''},
+    balance:{type:Number, trim:true, default:0.00}
 });
 
 module.exports = mongoose.model('Checking', CheckingSchema);
