@@ -5,7 +5,7 @@ const today = () =>{
 
 const CheckingTransactionSchema = new mongoose.Schema({
     owner:{type:mongoose.Schema.Types.ObjectId, ref:'Checking'},
-    date:{default:today()},
+    date:{type:String, default:today()},
     description:{type:String, uppercase:true, default:''},
     amount:{type:String, default:''}
 });

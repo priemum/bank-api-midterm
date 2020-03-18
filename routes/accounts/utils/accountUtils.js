@@ -1,7 +1,6 @@
 const Checking = require('../models/Checking');
 const Savings = require('../models/Savings');
 
-
 //generate random number inclusive of min and max
 const randomGen = (min, max) => {
     min = Math.ceil(min);
@@ -40,8 +39,39 @@ const uniqueAccountNumber = () => {
         .catch(err => reject(err));
 };
 
+const createTransaction = (id) => {
+    Checking.findOne({owner:id}).then(acct => 
+        acct
+    )
+    .then((acct) => {
+        const newTrans = new CheckingTrans();
+        newTrans.owner = acct._id;
+        newTrans.description = 'test';
+        newTrans.amount = '$10.00';
+        newTrans.save()
+        .then(trans => {
+            req.login(trans, err => {
+                if (err) {
+                    return res
+                    .status(400)
+                    .json({ confirmation: false, message: err });
+                } else {
+                    res.redirect('/auth/options');
+                    next();
+                }
+            });
+        })
+        .catch(err => {
+            return next(err);
+        });
+    })
+    // return ownerID
+    // return acct_id;
+}
+
 module.exports = {
     randomGen,
     generateAccountNumber,
-    uniqueAccountNumber
+    uniqueAccountNumber,
+    createTransaction
 }

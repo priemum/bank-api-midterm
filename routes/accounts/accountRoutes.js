@@ -10,6 +10,10 @@ const accountController = require('./controllers/accountController');
 router.get('/options', accountController.options);
 
 //render debit and credit page
-router.get('/creditDebit', accountController.creditDebit);
+router.get('/creditDebit', accountController.creditDebitPage);
+
+//post transaction to account
+router.post('/transaction', accountController.transaction);
+
 
 module.exports = router;

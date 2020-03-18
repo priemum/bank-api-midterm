@@ -1,3 +1,7 @@
+const Checking = require('../../routes/accounts/models/Checking')
+const express = require('express');
+const mongoose = require('mongoose');
+
 const dollarAmount = document.querySelector('#dollarAmount');
 
 const description = document.querySelector('#description');

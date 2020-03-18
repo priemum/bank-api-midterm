@@ -29,7 +29,10 @@
         </div>
         <div id="main">
             <div id="options">
-                <a href="./checking.html">
+                <form action="/auth/transaction" method="POST">
+                <button type="submit">trans</button>
+                </form>
+                <a href="/auth/">
                     <div id="checking" class="option">
                     <h2>Checking</h2>
                     </div>
@@ -57,6 +60,6 @@
             </div>
         </div>
     </div>
-    <%- include('../partials/scripts')  %> 
+    <script src="/javascripts/main.js"></script>
 </body>
 </html>

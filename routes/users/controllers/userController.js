@@ -149,7 +149,7 @@ module.exports = {
     },
 
     login: passport.authenticate('local-login', {
-        successRedirect: ('/auth/options'),
+        successRedirect: '/auth/options',
         failureRedirect: '/api/users/login',
         failureFlash: true
     }),
