@@ -65,7 +65,7 @@ module.exports = {
         if (req.isAuthenticated()) {
             return res.render('auth/profile');
         } else {
-            return res.send('Unauthorized');
+            return res.redirect('/fail');
         }
     },
 
@@ -73,7 +73,7 @@ module.exports = {
         if (req.isAuthenticated()) {
             return res.render('auth/update-profile');
         }
-        return res.redirect('/');
+        return res.redirect('/fail');
     },
     
     updateProfile: (params, id) => {

@@ -33,7 +33,6 @@ module.exports = {
     transaction:(req, res, next) => {
         const {dollarAmount, description, debtOrCred, acctChoice, } = req.body;
         if(acctChoice === 'checking'){
-            console.log(Number(dollarAmount));
             const id = req.user._id;
             Checking.findOne({owner:id}).then(acct => 
                 acct)
@@ -89,5 +88,45 @@ module.exports = {
                 })
             })
         }
+    },
+
+    //render checking account history
+    checking: (req, res) => {
+        if(req.isAuthenticated()){
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+            .then(acct => acct)
+            .then((acct) => {
+                CheckingTrans.find({owner:acct._id})
+                .then(transactions => {
+                    console.log(transactions);
+                    return res.render('auth/checking', {transactions})
+                })
+                .catch(err => err);
+            })
+            .catch(err => err);
+        } else {
+            return res.redirect('/fail');
+        };
+    },
+
+    //render savings account history
+    savings: (req, res) => {
+        if(req.isAuthenticated()){
+            const id = req.user._id;
+            Savings.findOne({owner:id})
+            .then(acct => acct)
+            .then((acct) => {
+                SavingsTrans.find({owner:acct._id})
+                .then(transactions => {
+                    console.log(transactions);
+                    return res.render('auth/savings', {transactions})
+                })
+                .catch(err => err);
+            })
+            .catch(err => err);
+        } else {
+            return res.redirect('/fail');
+        };
     }
 } 
