@@ -16,7 +16,7 @@ router.get('/creditDebit', accountController.creditDebitPage);
 router.post('/creditDebit', accountController.transaction);
 
 //render checking history page
-router.get('/checking', accountController.checking);
+// router.get('/checking', accountController.checking);
 
 //render savings history page
 router.get('/savings', accountController.savings);

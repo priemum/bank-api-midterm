@@ -34,8 +34,7 @@ module.exports = {
         const {dollarAmount, description, debtOrCred, acctChoice, } = req.body;
         if(acctChoice === 'checking'){
             const id = req.user._id;
-            Checking.findOne({owner:id}).then(acct => 
-                acct)
+            Checking.findOne({owner:id})
                 .then((acct) => {
                     if(debtOrCred === 'withdrawal'){
                         acct.balance -= Number(dollarAmount);
@@ -62,8 +61,7 @@ module.exports = {
         } else if(acctChoice === 'savings'){
             console.log(acctChoice);
             const id = req.user._id;
-            Savings.findOne({owner:id}).then(acct => 
-                acct)
+            Savings.findOne({owner:id})
                 .then((acct) => {
                     if(debtOrCred === 'withdrawal'){
                         acct.balance -= Number(dollarAmount);
@@ -72,7 +70,7 @@ module.exports = {
                     };
                     acct.save()
                     .then((acct) => {
-                    const newTrans = new CheckingTrans();
+                    const newTrans = new SavingsTrans();
                     newTrans.owner = acct._id;
                     newTrans.transType = debtOrCred;
                     newTrans.description = description;
@@ -95,7 +93,6 @@ module.exports = {
         if(req.isAuthenticated()){
             const id = req.user._id;
             Checking.findOne({owner:id})
-            .then(acct => acct)
             .then((acct) => {
                 CheckingTrans.find({owner:acct._id})
                 .then(transactions => {
@@ -115,7 +112,6 @@ module.exports = {
         if(req.isAuthenticated()){
             const id = req.user._id;
             Savings.findOne({owner:id})
-            .then(acct => acct)
             .then((acct) => {
                 SavingsTrans.find({owner:acct._id})
                 .then(transactions => {

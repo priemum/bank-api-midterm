@@ -10,25 +10,11 @@
 <body>
     <div id="app">
         <div id="header">
-            <div id="nav">
-                <a href="javascript:history.back()"><h2>Back</h2></a>
-            </div>
+            <%- include('../partials/backLink')  %>
             <div id="title">
                 <h1>Deposits/Withdrawals</h1>
             </div>
-            <div id="menu">
-                <h2>Menu</h2>
-            </div>
-            <div id="menuOptions">
-                <a href="./index.html"><div>Home</div></a>
-                <a href="./checking.html"><div>Checking</div></a>
-                <a href="./savings.html"><div>Savings</div></a>
-                <a href="./transfer.html"><div>Transfer</div></a>
-                <a href="./debtCred.html"><div>Debits/Credits</div></a>
-                <form action="/api/users/logout">
-                    <button style="font-size: 16px;" type="submit">Logout</button>
-                </form>
-            </div>
+            <%- include('../partials/menuOptions')  %>
         </div>
         <div id="balances">
             <div id="checkingBal">

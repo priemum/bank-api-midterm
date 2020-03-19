@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./history.css">
+    <link rel="stylesheet" href="/stylesheets/history.css" type="text/css">
     <title>Savings</title>
 </head>
 <body>
@@ -16,16 +16,7 @@
             <div id="title">
                 <h1>Savings</h1>
             </div>
-            <div id="menu">
-                <h2>Menu</h2>
-            </div>
-            <div id="menuOptions">
-                <a href="./index.html"><div>Home</div></a>
-                <a href="./checking.html"><div>Checking</div></a>
-                <a href="./savings.html"><div>Savings</div></a>
-                <a href="./transfer.html"><div>Transfer</div></a>
-                <a href="./debtCred.html"><div>Debits/Credits</div></a>
-            </div>
+            <%- include('../partials/menuOptions') %>
         </div>
         <div id="balances">
             <div id="checkingBal">
@@ -44,7 +35,7 @@
         </table>
         </div>
     </div>
-    <script src="./main.js"></script>
-    <script src="./sHistory.js"></script>
+    <script src="/javascripts/main.js"></script>
+    <!-- <script src="./sHistory.js"></script> -->
 </body>
 </html>
