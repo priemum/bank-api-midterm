@@ -39,36 +39,36 @@
         </div>
         <div id="main">
             <div id="options">
-                <form action="/auth/transaction" method="GET">
+                <form action="/auth/creditDebit" method="POST">
                 <div id="op1" class="option">
-                    <input type="text" id="dollarAmount" placeholder="Enter dollar amount">
+                    <input type="text" name="dollarAmount" id="dollarAmount" placeholder="Enter dollar amount">
                     <br>
-                    <input type="text" id="description" placeholder="Description">
+                    <input type="text" name="description" id="description" placeholder="Description">
                 </div>
                 <div id="op2" class="option">
                     <label for="debtOrCred">Deposit or Withdrawal:</label>
                     <br>
                     <select id="debtOrCred" name="debtOrCred">
-                        <option value="1">Deposit</option>
-                        <option value="2">Withdrawal</option>
+                        <option value="deposit">Deposit</option>
+                        <option value="withdrawal">Withdrawal</option>
                     </select>
                 </div>
                 <div id="op3" class="option">
                     <label for="acctChoice">Choose account:</label>
                     <br>
                     <select id="acctChoice" name="acctChoice">
-                        <option value="1">Checking</option>
-                        <option value="2">Savings</option>
+                        <option value="checking">Checking</option>
+                        <option value="savings">Savings</option>
                     </select>
                 </div>
                 <div id="op4" class="option">
-                    <button id="submitAction">Submit</button>
+                    <button type="submit">Submit</button>
                 </div>
                 </form>
             </div>
         </div>
     </div>
     <script src="/javascripts/main.js"></script>
-    <script src="/javascripts/debtCred.js"></script>
+    <!-- <script src="/javascripts/debtCred.js"></script> -->
 </body>
 </html>

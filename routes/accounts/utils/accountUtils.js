@@ -39,39 +39,45 @@ const uniqueAccountNumber = () => {
         .catch(err => reject(err));
 };
 
-const createTransaction = (id) => {
-    Checking.findOne({owner:id}).then(acct => 
-        acct
-    )
-    .then((acct) => {
-        const newTrans = new CheckingTrans();
-        newTrans.owner = acct._id;
-        newTrans.description = 'test';
-        newTrans.amount = '$10.00';
-        newTrans.save()
-        .then(trans => {
-            req.login(trans, err => {
-                if (err) {
-                    return res
-                    .status(400)
-                    .json({ confirmation: false, message: err });
-                } else {
-                    res.redirect('/auth/options');
-                    next();
-                }
-            });
-        })
-        .catch(err => {
-            return next(err);
-        });
-    })
-    // return ownerID
-    // return acct_id;
+// const checkingTransaction = (id) => {
+//     // (req, res, next) => {
+//     // const id = req.user._id;
+//     Checking.findOne({owner:id}).then(acct => 
+//         acct
+//     )
+//     .then((acct) => {
+//         const newTrans = new CheckingTrans();
+//         newTrans.owner = acct._id;
+//         newTrans.description = 'test';
+//         newTrans.amount = '$10.00';
+//         newTrans.save()
+//         .then(() => {
+//             res.redirect('/auth/creditDebit');
+//         })
+//         .catch(err => {
+//             next (err);
+//         });
+//     }
+//     )}
+
+const checkForNumbers = (val) => {
+    let f = 0;
+    let dot = 0;
+    for (const i of val){
+        if(isNaN(Number(i)) && i !== '.'){
+            f++;
+        }
+        if(i === '.'){
+            dot++
+        }
+    }
+    return dot > 1 || f > 0;
 }
+
 
 module.exports = {
     randomGen,
     generateAccountNumber,
     uniqueAccountNumber,
-    createTransaction
+    checkForNumbers
 }

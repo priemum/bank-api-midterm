@@ -1,16 +1,16 @@
-const Checking = require('../../routes/accounts/models/Checking')
-const express = require('express');
-const mongoose = require('mongoose');
+// const Checking = require('../../routes/accounts/models/Checking')
+// const express = require('express');
+// const mongoose = require('mongoose');
 
-const dollarAmount = document.querySelector('#dollarAmount');
+// const dollarAmount = document.querySelector('#dollarAmount');
 
-const description = document.querySelector('#description');
+// const description = document.querySelector('#description');
 
-const debtOrCred = document.querySelector('#debtOrCred');
+// const debtOrCred = document.querySelector('#debtOrCred');
 
-const acctChoice = document.querySelector('#acctChoice');
+// const acctChoice = document.querySelector('#acctChoice');
 
-const submitAction = document.querySelector('#submitAction');
+// const submitAction = document.querySelector('#submitAction');
 
 const docVal = () => {
     if(debtOrCred.value === '1'){
@@ -41,38 +41,44 @@ const calcBalAfterAction = () => {
     }
 }
 
-document.querySelector('#submitAction').addEventListener('click', function(){
-    if (checkForNumbers(dollarAmount.value) || !dollarAmount){
-        alert('Please enter dollar amount as a number.\nExample: 1.00');
-        dollarAmount.value = '';
-    } else {
-        const adjDolAmt = Math.round(dollarAmount.value * 100) / 100;
-        if (dollarAmount && debtOrCred.value === '2'){
-            if (acctChoice.value === '1'){
-                dataObj.cActDate.push(today());
-                dataObj.cActDesc.push(`${docVal()}. ${description.value}.`);
-                dataObj.cActAmt.push(`-${adjDolAmt}`);
-            } else if (acctChoice.value === '2'){
-                dataObj.sActDate.push(today());
-                dataObj.sActDesc.push(`${docVal()}. ${description.value}.`);
-                dataObj.sActAmt.push(`-${adjDolAmt}`);
-            }
-        }
-        if(dollarAmount && debtOrCred.value === '1'){
-            if (acctChoice.value === '1'){
-                dataObj.cActDate.push(today());
-                dataObj.cActDesc.push(`${docVal()}. ${description.value}.`);
-                dataObj.cActAmt.push(`${adjDolAmt}`);
-            } else if (acctChoice.value === '2'){
-                dataObj.sActDate.push(today());
-                dataObj.sActDesc.push(`${docVal()}. ${description.value}.`);
-                dataObj.sActAmt.push(`${adjDolAmt}`);
-            }
-        }
-    }
-    calcBalAfterAction();
-    dollarAmount.value = '';
-    description.value = '';
-    updateData();
-    location.reload();
-})
+// document.querySelector('#submitAction').addEventListener('click', function(){
+//     if (checkForNumbers(dollarAmount.value) || !dollarAmount){
+//         alert('Please enter dollar amount as a number.\nExample: 1.00');
+//         dollarAmount.value = '';
+//     } else {
+//         const adjDolAmt = Math.round(dollarAmount.value * 100) / 100;
+//         if (dollarAmount && debtOrCred.value === '2'){
+//             if (acctChoice.value === '1'){
+//                 dataObj.cActDate.push(today());
+//                 dataObj.cActDesc.push(`${docVal()}. ${description.value}.`);
+//                 dataObj.cActAmt.push(`-${adjDolAmt}`);
+//             } else if (acctChoice.value === '2'){
+//                 dataObj.sActDate.push(today());
+//                 dataObj.sActDesc.push(`${docVal()}. ${description.value}.`);
+//                 dataObj.sActAmt.push(`-${adjDolAmt}`);
+//             }
+//         }
+//         if(dollarAmount && debtOrCred.value === '1'){
+//             if (acctChoice.value === '1'){
+//                 dataObj.cActDate.push(today());
+//                 dataObj.cActDesc.push(`${docVal()}. ${description.value}.`);
+//                 dataObj.cActAmt.push(`${adjDolAmt}`);
+//             } else if (acctChoice.value === '2'){
+//                 dataObj.sActDate.push(today());
+//                 dataObj.sActDesc.push(`${docVal()}. ${description.value}.`);
+//                 dataObj.sActAmt.push(`${adjDolAmt}`);
+//             }
+//         }
+//     }
+//     calcBalAfterAction();
+//     dollarAmount.value = '';
+//     description.value = '';
+//     updateData();
+//     location.reload();
+// })
+
+module.exports = {
+    docVal,
+    acctVal,
+    calcBalAfterAction
+}

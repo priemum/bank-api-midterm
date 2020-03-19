@@ -13,7 +13,7 @@ router.get('/options', accountController.options);
 router.get('/creditDebit', accountController.creditDebitPage);
 
 //post transaction to account
-router.post('/transaction', accountController.transaction);
+router.post('/creditDebit', accountController.transaction);
 
 
 module.exports = router;
