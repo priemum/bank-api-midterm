@@ -33,19 +33,24 @@ module.exports = {
     transaction:(req, res, next) => {
         const {dollarAmount, description, debtOrCred, acctChoice, } = req.body;
         if(acctChoice === 'checking'){
+            console.log(Number(dollarAmount));
             const id = req.user._id;
             Checking.findOne({owner:id}).then(acct => 
                 acct)
                 .then((acct) => {
                     if(debtOrCred === 'withdrawal'){
-                        acct.balance = Number(acct.balance) - Number(dollarAmount);
+                        acct.balance -= Number(dollarAmount);
                     } else if(debtOrCred === 'deposit'){
-                        acct.balance = Number(acct.balance) + Number(dollarAmount);
+                        acct.balance += Number(dollarAmount);
                     };
+                    acct.save()
+                    .then((acct) => {
                     const newTrans = new CheckingTrans();
                     newTrans.owner = acct._id;
+                    newTrans.transType = debtOrCred;
                     newTrans.description = description;
                     newTrans.amount = dollarAmount;
+                    newTrans.newBalance = acct.balance;
                     newTrans.save()
                     .then(() => {
                         res.redirect('/auth/creditDebit');
@@ -54,20 +59,26 @@ module.exports = {
                         next (err);
                     });
                 })
+            })
         } else if(acctChoice === 'savings'){
+            console.log(acctChoice);
             const id = req.user._id;
             Savings.findOne({owner:id}).then(acct => 
                 acct)
                 .then((acct) => {
                     if(debtOrCred === 'withdrawal'){
-                        acct.balance = String(Number(acct.balance) - Number(dollarAmount));
+                        acct.balance -= Number(dollarAmount);
                     } else if(debtOrCred === 'deposit'){
-                        acct.balance = String(Number(acct.balance) + Number(dollarAmount));
+                        acct.balance += Number(dollarAmount);
                     };
+                    acct.save()
+                    .then((acct) => {
                     const newTrans = new CheckingTrans();
                     newTrans.owner = acct._id;
+                    newTrans.transType = debtOrCred;
                     newTrans.description = description;
                     newTrans.amount = dollarAmount;
+                    newTrans.newBalance = acct.balance;
                     newTrans.save()
                     .then(() => {
                         res.redirect('/auth/creditDebit');
@@ -76,6 +87,7 @@ module.exports = {
                         next (err);
                     });
                 })
+            })
         }
     }
 } 

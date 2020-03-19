@@ -6,8 +6,10 @@ const today = () =>{
 const CheckingTransactionSchema = new mongoose.Schema({
     owner:{type:mongoose.Schema.Types.ObjectId, ref:'Checking'},
     date:{type:String, default:today()},
+    transType:{type:String},
     description:{type:String, uppercase:true, default:''},
-    balance:{type:String, default:''}
+    amount:{type:String},
+    newBalance:{type:Number}
 });
 
 module.exports = mongoose.model('CheckingTrans', CheckingTransactionSchema);
