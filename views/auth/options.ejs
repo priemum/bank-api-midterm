@@ -10,17 +10,12 @@
 <body>
     <div id="app">
         <div id="header">
-            <%- include('../partials/backLink') %>
+            <div id="nav">
+            </div>
             <div id="title">
                 <h1>Options</h1>
             </div>
             <div id="menu">
-                <h2>Menu</h2>
-            </div>
-            <div id="menuOptions">
-                <form action="/api/users/logout">
-                    <button style="font-size: 16px;" type="submit">Logout</button>
-                </form>
             </div>
         </div>
         <div id="main">
@@ -50,6 +45,11 @@
                         <h2>Send Money</h2>
                     </div>
                 </a>
+                <div id="logOut" class="option">
+                    <form action="/api/users/logout">
+                        <button style="font-size: 16px;" type="submit">Logout</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
