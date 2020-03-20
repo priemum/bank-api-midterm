@@ -10,40 +10,46 @@
 <body>
     <div id="app">
         <div id="header">
-            <div id="nav">
-                <a href="javascript:history.back()"><h2>Back</h2></a>
-            </div>
+            <%- include('../partials/backLink') %>
             <div id="title">
                 <h1>Checking</h1>
             </div>
-            <div id="menu">
-                <h2>Menu</h2>
-            </div>
-            <div id="menuOptions">
-                <a href="/"><div>Home</div></a>
-                <a href="/auth/checking"><div>Checking</div></a>
-                <a href="/auth/savings"><div>Savings</div></a>
-                <a href="/auth/transfer"><div>Transfer</div></a>
-                <a href="/auth/creditDebit"><div>Deposits/Withdrawals</div></a>
-            </div>
+            <%- include('../partials/menuOptions')  %> 
         </div>
         <div id="balances">
             <div id="checkingBal">
                 <div id="cBalance" class="balance">Checking balance:</div>
-                <div id="cAmount" class="amount"></div>
+                <div id="cAmount" class="amount">$<%= cBalance %></div>
             </div>
             <div id="savingsBal">
                 <div id="sBalance" class="balance">Savings balance:</div>
-                <div id="sAmount" class="amount"></div>
+                <div id="sAmount" class="amount">$<%= sBalance %></div>
             </div>
         </div>
         <div id="main">
-            <div id="actionDate"></div>
-            <div id="actionDesc"></div>
-            <div id="actionAmount"></div>
+            <table style="width: 100vw;">
+                <tr>
+                    <th>DATE</th>
+                    <th>DESCRIPTION</th>
+                    <th>AMOUNT</th>
+                    <th>BALANCE</th>
+                </tr>
+                <% cTransactions.forEach(transaction => { %>
+                    <tr>
+                    <td id="actionDate"><%= transaction.date %></td>
+                    <td id="actionDesc"><%= transaction.description %></td>
+                    <% if (transaction.transType === 'withdrawal') { %>
+                        <% let transAmount = `-$${transaction.amount}` %>
+                    <% } else { %>
+                        <% let transAmount = `$${transaction.amount}` %>
+                        <td id="actionAmount"><%= transAmount %></td>
+                    <% } %>
+                    <td id="newBalance"><%= `$${transaction.newBalance}` %></td>
+                    </tr>
+                <% }) %>
+            </table> 
         </div>
     </div>
     <script src="/javascripts/main.js"></script>
-    <!-- <script src="./cHistory.js"></script> -->
 </body>
 </html>

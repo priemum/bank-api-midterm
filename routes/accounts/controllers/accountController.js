@@ -11,7 +11,7 @@ const flash = require('connect-flash');
 
 module.exports = {
 
-    //render options results page
+    //render options page
     options:(req, res) => {
         if(req.isAuthenticated()){
             return res.render('auth/options');
@@ -94,12 +94,18 @@ module.exports = {
             const id = req.user._id;
             Checking.findOne({owner:id})
             .then((acct) => {
+                const cBalance = acct.balance;
                 CheckingTrans.find({owner:acct._id})
                 .then(transactions => {
-                    console.log(transactions);
-                    return res.render('auth/checking', {transactions})
-                })
-                .catch(err => err);
+                    const cTransactions = transactions;
+                    return (cTransactions)})
+                .then(cTransactions =>
+                    Savings.findOne({owner:id})
+                    .then(sAcct =>{
+                        const sBalance = sAcct.balance;
+                        return res.render('auth/checking', {cTransactions, cBalance, sBalance})
+                    })
+                )
             })
             .catch(err => err);
         } else {
@@ -113,12 +119,18 @@ module.exports = {
             const id = req.user._id;
             Savings.findOne({owner:id})
             .then((acct) => {
+                const sBalance = acct.balance;
                 SavingsTrans.find({owner:acct._id})
                 .then(transactions => {
-                    console.log(transactions);
-                    return res.render('auth/savings', {transactions})
-                })
-                .catch(err => err);
+                    const sTransactions = transactions;
+                    return (sTransactions)})
+                .then(sTransactions =>
+                    Checking.findOne({owner:id})
+                    .then(cAcct =>{
+                        const cBalance = cAcct.balance;
+                        return res.render('auth/savings', {sTransactions, cBalance, sBalance})
+                    })
+                )
             })
             .catch(err => err);
         } else {
