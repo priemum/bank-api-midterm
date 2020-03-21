@@ -4,39 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/stylesheets/debtCred.css" type="text/css">
-    <title>Deposits and Withdrawals</title>
+    <link rel="stylesheet" href="/stylesheets/transfer.css">
+    <title>Transfer</title>
 </head>
 <body>
     <div id="app">
         <div id="header">
-            <%- include('../partials/backLink')  %>
+            <%- include('../partials/backLink')  %> 
             <div id="title">
-                <h1>Deposits/Withdrawals</h1>
+                <h1>Transfer</h1>
             </div>
-            <%- include('../partials/menuOptions')  %>
+            <%- include('../partials/menuOptions')  %> 
         </div>
-            <%- include('../partials/balanceBanners')  %> 
+        <%- include('../partials/balanceBanners')  %> 
         <div id="main">
             <div id="options">
-                <form action="/auth/creditDebit" method="POST">
+                <form action="/auth/transfer" method="POST">
                     <div id="op1" class="option">
-                        <input type="text" name="dollarAmount" id="dollarAmount" placeholder="Enter dollar amount">
-                        <br>
-                        <input type="text" name="description" id="description" placeholder="Description">
+                        <input type="text" name="transAmount" id="transAmount" placeholder="Transfer amount">
                     </div>
                     <div id="op2" class="option">
-                        <label for="debtOrCred">Deposit or Withdrawal:</label>
+                        <label for="transFrom">Transfer from:</label>
                         <br>
-                        <select id="debtOrCred" name="debtOrCred">
-                            <option value="deposit">Deposit</option>
-                            <option value="withdrawal">Withdrawal</option>
+                        <select id="transFrom" name="transFrom">
+                            <option value="checking">Checking</option>
+                            <option value="savings">Savings</option>
                         </select>
                     </div>
                     <div id="op3" class="option">
-                        <label for="acctChoice">Choose account:</label>
+                        <label for="transTo">Transfer to:</label>
                         <br>
-                        <select id="acctChoice" name="acctChoice">
+                        <select id="transTo" name="transTo">
                             <option value="checking">Checking</option>
                             <option value="savings">Savings</option>
                         </select>
@@ -49,5 +47,6 @@
         </div>
     </div>
     <script src="/javascripts/main.js"></script>
+    <!-- <script src="./transfer.js"></script> -->
 </body>
 </html>

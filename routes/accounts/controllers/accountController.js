@@ -26,6 +26,7 @@ module.exports = {
                     })
                 )
             })
+            .catch(err => err);
         }else {
             return res.redirect('/fail');
         };
@@ -46,6 +47,7 @@ module.exports = {
                     })
                 )
             })
+            .catch(err => err);
         }else {
             return res.redirect('/fail');
         };
@@ -81,7 +83,6 @@ module.exports = {
                 })
             })
         } else if(acctChoice === 'savings'){
-            console.log(acctChoice);
             const id = req.user._id;
             Savings.findOne({owner:id})
                 .then((acct) => {
@@ -106,6 +107,93 @@ module.exports = {
                         next (err);
                     });
                 })
+            })
+        }
+    },
+    
+    transfer:(req, res, next) => {
+        const {transAmount, transFrom, transTo} = req.body;
+        if(transFrom === 'checking'){
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+                .then((acct) => {
+                    if(transTo === 'savings'){
+                        acct.balance -= Number(transAmount);
+                        Savings.findOne({owner:acct.owner})
+                        .then(sAcct => {
+                            sAcct.balance += Number(transAmount);
+                            sAcct.save()
+                            .then((acct) => {
+                                const newTrans = new SavingsTrans();
+                                newTrans.owner = acct._id;
+                                newTrans.transType = 'deposit';
+                                newTrans.description = 'transfer from checking';
+                                newTrans.amount = transAmount;
+                                newTrans.newBalance = acct.balance;
+                                newTrans.save()
+                            });
+                        })
+                        acct.save()
+                        .then((acct) => {
+                            const newTrans = new CheckingTrans();
+                            newTrans.owner = acct._id;
+                            newTrans.transType = 'withdrawal';
+                            newTrans.description = 'transfer to savings';
+                            newTrans.amount = transAmount;
+                            newTrans.newBalance = acct.balance;
+                            newTrans.save()
+                            .then(() => {
+                                res.redirect('/auth/transfer');
+                            })
+                            .catch(err => {
+                                next (err);
+                            });
+                        })
+                    } else if(transTo === 'checking'){
+                        return res.redirect('/auth/transfer');
+                    };
+                    
+                })
+        } else if(transFrom === 'savings'){
+            const id = req.user._id;
+            Savings.findOne({owner:id})
+            .then((acct) => {
+                if(transTo === 'checking'){
+                    acct.balance -= Number(transAmount);
+                    Checking.findOne({owner:acct.owner})
+                        .then(cAcct => {
+                            cAcct.balance += Number(transAmount);
+                            cAcct.save()
+                            .then((acct) => {
+                                const newTrans = new CheckingTrans();
+                                newTrans.owner = acct._id;
+                                newTrans.transType = 'deposit';
+                                newTrans.description = 'transfer from savings';
+                                newTrans.amount = transAmount;
+                                newTrans.newBalance = acct.balance;
+                                newTrans.save()
+                            })
+                        });
+                    acct.save()
+                    .then((acct) => {
+                        const newTrans = new SavingsTrans();
+                        newTrans.owner = acct._id;
+                        newTrans.transType = 'withdrawal';
+                        newTrans.description = 'transfer to checking';
+                        newTrans.amount = transAmount;
+                        newTrans.newBalance = acct.balance;
+                        newTrans.save()
+                        .then(() => {
+                            res.redirect('/auth/transfer');
+                        })
+                        .catch(err => {
+                            next (err);
+                        });
+                    })
+                } else if(transTo === 'savings'){
+                    return res.redirect('/auth/transfer');
+                };
+                
             })
         }
     },
@@ -158,5 +246,27 @@ module.exports = {
         } else {
             return res.redirect('/fail');
         };
+    },
+
+    //render transfer page
+    transferPage: (req, res) => {
+        if(req.isAuthenticated()){
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+            .then((acct) => {
+                const cBalance = acct.balance;
+                return cBalance
+                .then(Savings.findOne({owner:id})
+                    .then(sAcct =>{
+                        const sBalance = sAcct.balance;
+                        return res.render('auth/transfer', {cBalance, sBalance})
+                    })
+                )
+            })
+            .catch(err => err);
+        }else {
+            return res.redirect('/fail');
+        };
     }
+    
 } 

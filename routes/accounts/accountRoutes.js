@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
+// const passport = require('passport');
 require('../../lib/passport');
 
 const accountController = require('./controllers/accountController');
@@ -20,6 +20,12 @@ router.get('/checking', accountController.checking);
 
 //render savings history page
 router.get('/savings', accountController.savings);
+
+//render transfer page
+router.get('/transfer', accountController.transferPage);
+
+//post transfer to accounts
+router.post('/transfer', accountController.transfer);
 
 
 module.exports = router;
