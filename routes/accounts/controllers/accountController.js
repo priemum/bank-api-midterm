@@ -14,7 +14,18 @@ module.exports = {
     //render options page
     options:(req, res) => {
         if(req.isAuthenticated()){
-            return res.render('auth/options');
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+            .then((acct) => {
+                const cBalance = acct.balance;
+                return cBalance
+                .then(Savings.findOne({owner:id})
+                    .then(sAcct =>{
+                        const sBalance = sAcct.balance;
+                        return res.render('auth/options', {cBalance, sBalance})
+                    })
+                )
+            })
         }else {
             return res.redirect('/fail');
         };
@@ -23,7 +34,18 @@ module.exports = {
     //render credit and debit page
     creditDebitPage:(req, res) => {
         if(req.isAuthenticated()){
-            return res.render('auth/creditDebit');
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+            .then((acct) => {
+                const cBalance = acct.balance;
+                return cBalance
+                .then(Savings.findOne({owner:id})
+                    .then(sAcct =>{
+                        const sBalance = sAcct.balance;
+                        return res.render('auth/creditDebit', {cBalance, sBalance})
+                    })
+                )
+            })
         }else {
             return res.redirect('/fail');
         };
