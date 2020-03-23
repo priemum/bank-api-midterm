@@ -27,5 +27,11 @@ router.get('/transfer', accountController.transferPage);
 //post transfer to accounts
 router.post('/transfer', accountController.transfer);
 
+//post transfer to accounts
+router.get('/sendMoney', accountController.sendMoneyPage);
+
+//post transfer to accounts
+router.post('/sendMoney', accountController.sendMoney);
+
 
 module.exports = router;

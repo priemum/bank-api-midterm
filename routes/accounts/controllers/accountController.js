@@ -267,6 +267,103 @@ module.exports = {
         }else {
             return res.redirect('/fail');
         };
+    },
+
+    //render send money page
+    sendMoneyPage: (req, res) => {
+        if(req.isAuthenticated()){
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+            .then((acct) => {
+                const cBalance = acct.balance;
+                return cBalance
+                .then(Savings.findOne({owner:id})
+                    .then(sAcct =>{
+                        const sBalance = sAcct.balance;
+                        return res.render('auth/sendMoney', {cBalance, sBalance})
+                    })
+                )
+            })
+            .catch(err => err);
+        }else {
+            return res.redirect('/fail');
+        };
+    },
+
+    //post transaction to account
+    sendMoney:(req, res, next) => {
+        const {dollarAmount, sendTo, sendFrom, } = req.body;
+        if(sendFrom === 'checking'){
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+                .then((acct) => {
+                    if(sendTo){
+                        acct.balance -= Number(dollarAmount);
+                        acct.save()
+                        .then((acct) => {
+                        const newTrans = new CheckingTrans();
+                        newTrans.owner = acct._id;
+                        newTrans.transType = 'withdrawal';
+                        newTrans.description = `money sent to ${sendTo}`;
+                        newTrans.amount = dollarAmount;
+                        newTrans.newBalance = acct.balance;
+                        newTrans.save()
+                        });
+                        User.findOne({email:sendTo})
+                        .then(user => {
+                            return user._id;
+                        })
+                        .then(idTo => {
+                            Checking.findOne({owner:idTo})
+                            .then(acct => {
+                                acct.balance += dollarAmount;
+                                acct.save()
+                                .then((acct) => {
+                                const newTrans = new CheckingTrans();
+                                newTrans.owner = acct._id;
+                                newTrans.transType = 'deposit';
+                                newTrans.description = `money received from ${req.user.name}`;
+                                newTrans.amount = dollarAmount;
+                                newTrans.newBalance = acct.balance;
+                                newTrans.save();
+                                })
+                            })
+                        })
+                        .then(() => {
+                            res.redirect('/auth/creditDebit')
+                        .catch(err => {
+                            next (err);
+                        });
+                    })
+                }
+            })
+        } else if(acctChoice === 'savings'){
+            const id = req.user._id;
+            Savings.findOne({owner:id})
+                .then((acct) => {
+                    if(debtOrCred === 'withdrawal'){
+                        acct.balance -= Number(dollarAmount);
+                    } else if(debtOrCred === 'deposit'){
+                        acct.balance += Number(dollarAmount);
+                    };
+                    acct.save()
+                    .then((acct) => {
+                    const newTrans = new SavingsTrans();
+                    newTrans.owner = acct._id;
+                    newTrans.transType = debtOrCred;
+                    newTrans.description = description;
+                    newTrans.amount = dollarAmount;
+                    newTrans.newBalance = acct.balance;
+                    newTrans.save()
+                    .then(() => {
+                        res.redirect('/auth/creditDebit');
+                    })
+                    .catch(err => {
+                        next (err);
+                    });
+                })
+            })
+        }
     }
     
 } 
