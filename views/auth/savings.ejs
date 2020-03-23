@@ -35,20 +35,21 @@
                         <th id="actionAmount">AMOUNT</th>
                         <th id="newBalance">BALANCE</th>
                     </tr>
-                    <% sTransactions.forEach(transaction => { %>
+                    <% sortedTransactions = sTransactions.sort((a,b) => {let transA = a.date; let transB = b.date; transB - transA}); console.log(sortedTransactions) %> 
+                    <% for(i = sortedTransactions.length - 1; i >= 0; i--){ %>
                         <tr>
-                        <td id="actionDate"><%= transaction.date %></td>
-                        <td id="actionDesc"><%= transaction.description %></td>
-                        <% if (transaction.transType === 'withdrawal') { %>
-                            <% let transAmount = `-$${transaction.amount}` %>
+                        <td id="actionDate"><%= sortedTransactions[i].date %></td>
+                        <td id="actionDesc"><%= sortedTransactions[i].description %></td>
+                        <% if (sortedTransactions[i].transType === 'withdrawal') { %>
+                            <% let transAmount = `-$${sortedTransactions[i].amount}` %>
                             <td id="actionAmount"><%= transAmount %></td>
                         <% } else { %>
-                            <% let transAmount = `$${transaction.amount}` %>
+                            <% let transAmount = `$${sortedTransactions[i].amount}` %>
                             <td id="actionAmount"><%= transAmount %></td>
                         <% } %>
-                        <td id="newBalance"><%= `$${transaction.newBalance}` %></td>
+                        <td id="newBalance"><%= `$${sortedTransactions[i].newBalance}` %></td>
                         </tr>
-                    <% }) %>
+                    <% } %>
                 </table>
             </div>
         </div>
