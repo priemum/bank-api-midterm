@@ -316,13 +316,13 @@ module.exports = {
                         .then(idTo => {
                             Checking.findOne({owner:idTo})
                             .then(acct => {
-                                acct.balance += dollarAmount;
+                                acct.balance += Number(dollarAmount);
                                 acct.save()
                                 .then((acct) => {
                                 const newTrans = new CheckingTrans();
                                 newTrans.owner = acct._id;
                                 newTrans.transType = 'deposit';
-                                newTrans.description = `money received from ${req.user.name}`;
+                                newTrans.description = `money received from ${req.user.email}`;
                                 newTrans.amount = dollarAmount;
                                 newTrans.newBalance = acct.balance;
                                 newTrans.save();
@@ -330,39 +330,57 @@ module.exports = {
                             })
                         })
                         .then(() => {
-                            res.redirect('/auth/creditDebit')
+                            res.redirect('/auth/sendMoney')
+                        })
                         .catch(err => {
                             next (err);
                         });
-                    })
-                }
-            })
-        } else if(acctChoice === 'savings'){
+                    } 
+                })
+        } else if(sendFrom === 'savings'){
             const id = req.user._id;
             Savings.findOne({owner:id})
                 .then((acct) => {
-                    if(debtOrCred === 'withdrawal'){
+                    if(sendTo){
                         acct.balance -= Number(dollarAmount);
-                    } else if(debtOrCred === 'deposit'){
-                        acct.balance += Number(dollarAmount);
-                    };
-                    acct.save()
-                    .then((acct) => {
-                    const newTrans = new SavingsTrans();
-                    newTrans.owner = acct._id;
-                    newTrans.transType = debtOrCred;
-                    newTrans.description = description;
-                    newTrans.amount = dollarAmount;
-                    newTrans.newBalance = acct.balance;
-                    newTrans.save()
-                    .then(() => {
-                        res.redirect('/auth/creditDebit');
-                    })
-                    .catch(err => {
-                        next (err);
-                    });
+                        acct.save()
+                        .then((acct) => {
+                        const newTrans = new SavingsTrans();
+                        newTrans.owner = acct._id;
+                        newTrans.transType = 'withdrawal';
+                        newTrans.description = `money sent to ${sendTo}`;
+                        newTrans.amount = dollarAmount;
+                        newTrans.newBalance = acct.balance;
+                        newTrans.save()
+                        });
+                        User.findOne({email:sendTo})
+                        .then(user => {
+                            return user._id;
+                        })
+                        .then(idTo => {
+                            Checking.findOne({owner:idTo})
+                            .then(acct => {
+                                acct.balance += Number(dollarAmount);
+                                acct.save()
+                                .then((acct) => {
+                                const newTrans = new CheckingTrans();
+                                newTrans.owner = acct._id;
+                                newTrans.transType = 'deposit';
+                                newTrans.description = `money received from ${req.user.email}`;
+                                newTrans.amount = dollarAmount;
+                                newTrans.newBalance = acct.balance;
+                                newTrans.save();
+                                })
+                            })
+                        })
+                        .then(() => {
+                            res.redirect('/auth/sendMoney')
+                        })
+                        .catch(err => {
+                            next (err);
+                        });
+                    }
                 })
-            })
         }
     }
     
