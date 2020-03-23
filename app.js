@@ -16,22 +16,22 @@ require('./lib/passport');
 
 const app = express();
 
-// mongoose.connect(process.env.MONGODB_URI, {
-//   useNewUrlParser:true,
-//   useUnifiedTopology:true,
-//   useCreateIndex:true
-// }).then(()=>{
-//   console.log('MongoDB connected');
-// }).catch(err => console.log(`Mongo Error: ${err}`));
+mongoose.connect("mongodb+srv://pgaray1229:Newyer98!@cluster0-dnsdm.azure.mongodb.net/test?retryWrites=true&w=majority", {
+  useNewUrlParser:true,
+  useUnifiedTopology:true,
+  useCreateIndex:true
+}).then(()=>{
+  console.log('MongoDB connected');
+}).catch(err => console.log(`Mongo Error: ${err}`));
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://pgaray1229:Newyer98!@cluster0-dnsdm.azure.mongodb.net/test?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = "mongodb+srv://pgaray1229:Newyer98!@cluster0-dnsdm.azure.mongodb.net/test?retryWrites=true&w=majority";
+// const client = new MongoClient(uri, { useNewUrlParser: true });
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
 
 
 // view engine setup
