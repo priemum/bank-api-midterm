@@ -27,7 +27,7 @@ router.get('/profile', userController.profilePage);
 //   }
 // });
 
-router.put('/update-profile', (req, res, next) => {
+router.put('/updateProfile', (req, res, next) => {
   userController
     .updateProfile(req.body, req.user._id)
     .then(user => {
@@ -35,12 +35,12 @@ router.put('/update-profile', (req, res, next) => {
     })
     .catch(err => {
       console.log(err);
-      return res.redirect('/api/users/update-profile');
+      return res.redirect('/api/users/updateProfile');
     });
 });
 
 //render update profile page
-router.get('/update-profile', userController.updateProfilePage)
+router.get('/updateProfile', userController.updateProfilePage)
 // router.get('/update-profile', (req, res) => {
 //   if (req.isAuthenticated()) {
 //     return res.render('auth/update-profile');
@@ -49,7 +49,7 @@ router.get('/update-profile', userController.updateProfilePage)
 // });
 
 //update password
-router.put('/update-password', userController.updatePassword);
+router.put('/updatePassword', userController.updatePassword);
 // router.put('/update-password', (req, res) => {
 //   userController
 //     .updatePassword(req.body, req.user._id)

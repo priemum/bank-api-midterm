@@ -71,7 +71,7 @@ module.exports = {
 
     updateProfilePage: (req, res) => {
         if (req.isAuthenticated()) {
-            return res.render('auth/update-profile');
+            return res.render('auth/updateProfile');
         }
         return res.redirect('/fail');
     },
