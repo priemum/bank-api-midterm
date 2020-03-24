@@ -16,7 +16,7 @@ require('./lib/passport');
 
 const app = express();
 
-mongoose.connect("mongodb+srv://pgaray1229:Newyer98!@cluster0-dnsdm.azure.mongodb.net/test?retryWrites=true&w=majority", {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser:true,
   useUnifiedTopology:true,
   useCreateIndex:true
