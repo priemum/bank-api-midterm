@@ -386,57 +386,122 @@ module.exports = {
         }
     },
 
+    //render statements page
     statementsPage: (req, res) => {
-        return res.render('auth/statements');
+        if(req.isAuthenticated()){
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+            .then((acct) => {
+                const cBalance = acct.balance;
+                return cBalance
+                .then(Savings.findOne({owner:id})
+                    .then(sAcct =>{
+                        const sBalance = sAcct.balance;
+                        return res.render('auth/statements', {cBalance, sBalance, cAccount:null, sAccount:null})
+                    })
+                )
+            })
+            .catch(err => err);
+        }else {
+            return res.redirect('/fail');
+        };
     },
 
+    //post new statement
     createStatement: (req, res) => {
+        let cBalance = 0;
+        let sBalance = 0;
         const id = req.user._id;
-        Checking.findOne({owner:id})
-        .then(acct)
-    },
-
-    transListPage: (req, res) => {
-        res.render('auth/transList')
-    },
-
-    transList: (req, res) => {
         const transArray = [];
-        let cAccountId = '';
-        let sAccountId = '';
-        const id = req.user._id;
+        let cAccount = {};
+        let sAccount = {};
         const {selectMonth, account} = req.body;
-        if(account === 'Checking'){
+        Checking.findOne({owner:id})
+        .then((acct) => {
+            cBalance = acct.balance;
+        })
+        Savings.findOne({owner:id})
+            .then(sAcct =>{
+                sBalance = sAcct.balance;
+        })
+        .catch(err => err);
+        if(account === 'checking'){
             Checking.findOne({owner:id})
             .then(acct => {
-                cAccountId = acct._id;
-                return acct
-            })
-            .then(acct => 
-                CheckingTrans.find({owner:acct._id}))
-            .then(transactions => {
-                transactions.forEach(trans => {
-                    const tDate = trans.date
-                    if(selectMonth.length === 2){
-                        if(tDate.slice(0,2) === selectMonth){
-                            transArray.push(trans);
+                cAccount = acct;
+                CheckingTrans.find({owner:acct._id})
+                .then(transactions => {
+                    transactions.forEach(trans => {
+                        const tDate = trans.date
+                        if(selectMonth.length === 2){
+                            if(tDate.slice(0,2) === selectMonth){
+                                transArray.push(trans);
+                            };
                         };
-                    };
-                    if(selectMonth.length === 1){
-                        if(tDate.slice(0,1) === selectMonth){
-                            transArray.push(trans);
-                        };
-                    }
-                });
-                return transArray;
+                        if(selectMonth.length === 1){
+                            if(tDate.slice(0,1) === selectMonth){
+                                transArray.push(trans);
+                            };
+                        }
+                    });
+                    return transArray;
+                })
+                .then(transArray => {
+                    const newStatement = new CheckingStatement();
+                    newStatement.owner = cAccount._id;
+                    newStatement.month = selectMonth;
+                    newStatement.transactions = [...transArray];
+                    newStatement.save()
+                    .then(statement => {
+                        Checking.findOne({_id:cAccount._id})
+                        .then(acct => {
+                            acct.statements = [...acct.statements, {month:statement.month, type:'checking'}];
+                            acct.save()
+                        })
+                    })
+                })
+                res.render('auth/statements', {cAccount, sAccount, cBalance, sBalance});
             })
-            const newStatement = new CheckingStatement();
-            newStatement.owner = cAccountId;
-            newStatement.month = selectMonth;
-            newStatement.transactions = [...transArray];
-            newStatement.save()
-            // .then(result => res.send(result))
-        }
+            .catch(err => err);
+        } else if (account === 'savings'){
+            Savings.findOne({owner:id})
+            .then(acct => {
+                sAccount = acct;
+                SavingsTrans.find({owner:acct._id})
+                .then(transactions => {
+                    transactions.forEach(trans => {
+                        const tDate = trans.date
+                        if(selectMonth.length === 2){
+                            if(tDate.slice(0,2) === selectMonth){
+                                transArray.push(trans);
+                            };
+                        };
+                        if(selectMonth.length === 1){
+                            if(tDate.slice(0,1) === selectMonth){
+                                transArray.push(trans);
+                            };
+                        }
+                    });
+                    return transArray;
+                })
+                .then(transArray => {
+                    const newStatement = new SavingsStatement();
+                    newStatement.owner = sAccount._id;
+                    newStatement.month = selectMonth;
+                    newStatement.transactions = [...transArray];
+                    newStatement.save()
+                    .then(statement => {
+                        Savings.findOne({_id:sAccount._id})
+                        .then(acct => {
+                            acct.statements = [...acct.statements, {month:statement.month, type:'savings'}];
+                            acct.save()
+                        })
+                    })
+                })
+                res.render('auth/statements', {sAccount, cAccount, cBalance, sBalance});
+            })
+            .catch(err => err);
+        };
     }
     
 } 

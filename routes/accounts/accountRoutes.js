@@ -33,13 +33,11 @@ router.get('/sendMoney', accountController.sendMoneyPage);
 //post transfer to accounts
 router.post('/sendMoney', accountController.sendMoney);
 
-//test pdf
+//render statements page
 router.get('/statements', accountController.statementsPage);
 
-//test transaction
-router.get('/trans', accountController.transListPage);
-
-router.post('/trans', accountController.transList);
+//post new statement
+router.post('/statements', accountController.createStatement);
 
 
 module.exports = router;
