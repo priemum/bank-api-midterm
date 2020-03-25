@@ -1,5 +1,7 @@
 const Checking = require('../models/Checking');
+const CheckingTrans = require('../models/CheckingTransaction');
 const Savings = require('../models/Savings');
+const SavingsTrans = require('../models/SavingsTransaction');
 
 //generate random number inclusive of min and max
 const randomGen = (min, max) => {
@@ -39,27 +41,6 @@ const uniqueAccountNumber = () => {
         .catch(err => reject(err));
 };
 
-// const checkingTransaction = (id) => {
-//     // (req, res, next) => {
-//     // const id = req.user._id;
-//     Checking.findOne({owner:id}).then(acct => 
-//         acct
-//     )
-//     .then((acct) => {
-//         const newTrans = new CheckingTrans();
-//         newTrans.owner = acct._id;
-//         newTrans.description = 'test';
-//         newTrans.amount = '$10.00';
-//         newTrans.save()
-//         .then(() => {
-//             res.redirect('/auth/creditDebit');
-//         })
-//         .catch(err => {
-//             next (err);
-//         });
-//     }
-//     )}
-
 const checkForNumbers = (val) => {
     let f = 0;
     let dot = 0;
@@ -72,6 +53,67 @@ const checkForNumbers = (val) => {
         }
     }
     return dot > 1 || f > 0;
+};
+
+const checkMonth = (selectMonth) => {
+    switch (selectMonth) {
+        case JAN:
+          month = "1";
+          break;
+        case FEB:
+          month = "2";
+          break;
+        case MAR:
+           month = "3";
+          break;
+        case APR:
+          month = "4";
+          break;
+        case MAY:
+          month = "5";
+          break;
+        case JUN:
+          month = "6";
+          break;
+        case JUL:
+          month = "7";
+          break;
+        case AUG:
+          month = "8";
+          break;
+        case SEP:
+          month = "9";
+          break;
+        case OCT:
+          month = "10";
+          break;
+        case NOV:
+          month = "11";
+          break;
+        case DEC:
+          month = "12";
+          break;
+      }
+};
+
+const createTransArray = (req, res, params) => {
+    const {id, account, month} = params
+    transArray = [];
+    if(account === 'Checking'){
+        Checking.findOne({owner:id})
+        .then(acct => {
+            const cId = acct._id
+            return cId
+        })
+        .then(cId => {
+            CheckingTrans.find({owner:cId})
+        })
+        .then(transactions => {
+            transArray.push(...transactions.filter(date.slice(indexOf('/')) === month))
+        })
+        .then(transArray => res.send(transArray))
+    }
+    
 }
 
 
@@ -79,5 +121,6 @@ module.exports = {
     randomGen,
     generateAccountNumber,
     uniqueAccountNumber,
-    checkForNumbers
+    checkForNumbers,
+    checkMonth
 }
