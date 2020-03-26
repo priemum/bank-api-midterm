@@ -428,46 +428,41 @@ module.exports = {
         })
         .catch(err => err);
         if(account === 'checking'){
-            Checking.findOne({owner:id})
-            .then(acct => {
-                CheckingTrans.find({owner:acct._id})
-                .then(transactions => {
-                    transactions.forEach(trans => {
-                        const tDate = trans.date
-                        if(selectMonth.length === 2){
-                            if(tDate.slice(0,2) === selectMonth){
-                                transArray.push(trans);
-                            };
+            CheckingTrans.find({owner:cAccount._id})
+            .then(transactions => {
+                transactions.forEach(trans => {
+                    const tDate = trans.date
+                    if(selectMonth.length === 2){
+                        if(tDate.slice(0,2) === selectMonth){
+                            transArray.push(trans);
                         };
-                        if(selectMonth.length === 1){
-                            if(tDate.slice(0,1) === selectMonth){
-                                transArray.push(trans);
-                            };
-                        }
-                    });
-                    return transArray;
+                    };
+                    if(selectMonth.length === 1){
+                        if(tDate.slice(0,1) === selectMonth){
+                            transArray.push(trans);
+                        };
+                    }
+                });
+                return transArray;
+            })
+            .then(transArray => {
+                if(cAccount.statements.length < 12){
+                const newStatement = new CheckingStatement();
+                newStatement.owner = cAccount._id;
+                newStatement.month = selectMonth;
+                newStatement.transactions = [...transArray];
+                newStatement.save()
+                .then(statement => {
+                    let aMonth = utils.alphMonth(statement.month);
+                    cAccount.statements = [...cAccount.statements, {month:aMonth, type:'checking'}];
+                    cAccount.save()
                 })
-                .then(transArray => {
-                    const newStatement = new CheckingStatement();
-                    newStatement.owner = cAccount._id;
-                    newStatement.month = selectMonth;
-                    newStatement.transactions = [...transArray];
-                    newStatement.save()
-                    .then(statement => {
-                        Checking.findOne({_id:cAccount._id})
-                        .then(acct => {
-                            acct.statements = [...acct.statements, {month:statement.month, type:'checking'}];
-                            acct.save()
-                        })
-                    })
-                })
-                return res.render('auth/statements', {cBalance, cAccount, sBalance, sAccount});
+                }
+                return res.redirect('/auth/statements');
             })
             .catch(err => err);
         } else if (account === 'savings'){
-            Savings.findOne({owner:id})
-            .then(acct => {
-                SavingsTrans.find({owner:acct._id})
+                SavingsTrans.find({owner:sAccount._id})
                 .then(transactions => {
                     transactions.forEach(trans => {
                         const tDate = trans.date
@@ -485,22 +480,21 @@ module.exports = {
                     return transArray;
                 })
                 .then(transArray => {
+                    if(sAccount.statements.length < 12){
                     const newStatement = new SavingsStatement();
                     newStatement.owner = sAccount._id;
                     newStatement.month = selectMonth;
                     newStatement.transactions = [...transArray];
                     newStatement.save()
                     .then(statement => {
-                        Savings.findOne({_id:sAccount._id})
-                        .then(acct => {
-                            acct.statements = [...acct.statements, {month:statement.month, type:'savings'}];
-                            acct.save()
-                        })
+                        let aMonth = utils.alphMonth(statement.month);
+                        sAccount.statements = [...sAccount.statements, {month:aMonth, type:'savings'}];
+                        sAccount.save()
                     })
+                    }
+                    return res.redirect('/auth/statements');
                 })
-                return res.render('auth/statements', {cBalance, cAccount, sBalance, sAccount});
-            })
-            .catch(err => err);
+                .catch(err => err);
         };
     }
     

@@ -55,8 +55,7 @@
             </div>
             <div id="mainBottom">
                 <div id="checkingList">
-                    <!-- <div id="tableDiv"> -->
-                        <h3>Checking</h3>
+                        <h2>Checking</h2>
                             <% if (cAccount !== null) { %>
                             <% cAccount.statements.forEach(item => { %>
                                 <div class="row">
@@ -64,7 +63,6 @@
                                         <input type="checkbox" class="delete" name="deleteCheck" id="deleteCheck"></td>
                                     </div>
                                     <div class="month">
-                                        <%     switch (item.month) { case 1: month = "JAN"; break; case 2: month = "FEB"; break; case 3: month = "MAR"; break; case 4: month = "APR"; break; case 5: month = "MAY"; break; case 6: month = "JUN"; break; case 7: month = "JUL"; break; case 8: month = "AUG"; break; case 9: month = "SEP"; break; case 10: month = "OCT"; break; case 11: month = "NOV"; break; case 12: month = "DEC"; break;} %> 
                                         <p><%= item.month %></p>
                                     </div>
                                     <div class="viewBtn">
@@ -76,25 +74,23 @@
                             <% }) %>
                             <% } %>
                         </table> 
-                    <!-- </div> -->
                 </div>
                 <div id="savingsList">
-                        <h3>Savings</h3>
+                        <h2>Savings</h2>
                             <% if (sAccount) { %>
                             <% sAccount.statements.forEach(item => { %>
                                     <div class="row">
-                                        <div class="check">
-                                            <input type="checkbox" class="delete" name="deleteCheck" id="deleteCheck"></td>
-                                        </div>
-                                        <div class="month">
-                                            <%     switch (item.month) { case 1: month = "JAN"; break; case 2: month = "FEB"; break; case 3: month = "MAR"; break; case 4: month = "APR"; break; case 5: month = "MAY"; break; case 6: month = "JUN"; break; case 7: month = "JUL"; break; case 8: month = "AUG"; break; case 9: month = "SEP"; break; case 10: month = "OCT"; break; case 11: month = "NOV"; break; case 12: month = "DEC"; break;} %> 
-                                            <p><%= item.month %></p>
-                                        </div>
-                                        <div class="viewBtn">
-                                            <form action="/auth/monthlyStatement">
-                                                <button type="submit">View</button>
-                                            </form>
-                                        </div>
+                                        <form action="/auth/monthlyStatement">
+                                            <div class="check">
+                                                <input type="checkbox" class="delete" name="deleteCheck" id="deleteCheck"></td>
+                                            </div>
+                                            <div class="month">
+                                                <p><%= item.month %></p>
+                                            </div>
+                                            <div class="viewBtn">
+                                                    <button type="submit">View</button>
+                                            </div>
+                                        </form>
                                     </div>
                             <% }) %>
                             <% } %>

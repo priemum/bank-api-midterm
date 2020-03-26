@@ -96,11 +96,41 @@ const checkMonth = (selectMonth) => {
       }
 };
 
+const alphMonth = (numMonth) => {
+  let month = '';
+        if(numMonth === '1'){
+            month = 'Jan';
+        } else if(numMonth === '2'){
+            month = 'Feb';
+        } else if(numMonth === '3'){
+            month = 'Mar';
+        } else if(numMonth === '4'){
+            month = 'Apr';
+        } else if(numMonth === '5'){
+            month = 'May';
+        } else if(numMonth === '6'){
+            month = 'Jun';
+        } else if(numMonth === '7'){
+            month = 'Jul';
+        } else if(numMonth === '8'){
+            month = 'Aug';
+        } else if(numMonth === '9'){
+            month = 'Sep';
+        } else if(numMonth === '10'){
+            month = 'Oct';
+        } else if(numMonth === '11'){
+            month = 'Nov';
+        } else if(numMonth === '12'){
+            month = 'Dec';
+        }
+        return month;
+    }
+
 
 module.exports = {
     randomGen,
     generateAccountNumber,
     uniqueAccountNumber,
     checkForNumbers,
-    checkMonth
+    alphMonth
 }
