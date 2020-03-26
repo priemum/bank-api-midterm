@@ -57,64 +57,44 @@ const checkForNumbers = (val) => {
 
 const checkMonth = (selectMonth) => {
     switch (selectMonth) {
-        case JAN:
-          month = "1";
+        case 1:
+          month = "JAN";
           break;
-        case FEB:
-          month = "2";
+        case 2:
+          month = "FEB";
           break;
-        case MAR:
-           month = "3";
+        case 3:
+          month = "MAR";
           break;
-        case APR:
-          month = "4";
+        case 4:
+          month = "APR";
           break;
-        case MAY:
-          month = "5";
+        case 5:
+          month = "MAY";
           break;
-        case JUN:
-          month = "6";
+        case 6:
+          month = "JUN";
           break;
-        case JUL:
-          month = "7";
+        case 7:
+          month = "JUL";
           break;
-        case AUG:
-          month = "8";
+        case 8:
+          month = "AUG";
           break;
-        case SEP:
-          month = "9";
+        case 9:
+          month = "SEP";
           break;
-        case OCT:
-          month = "10";
+        case 10:
+          month = "OCT";
           break;
-        case NOV:
-          month = "11";
+        case 11:
+          month = "NOV";
           break;
-        case DEC:
-          month = "12";
+        case 12:
+          month = "DEC";
           break;
       }
 };
-
-const createTransArray = (req, res, params) => {
-    const {id, account, month} = params
-    transArray = [];
-    if(account === 'Checking'){
-        Checking.findOne({owner:id})
-        .then(acct => {
-            const cId = acct._id
-            return cId
-        })
-        .then(cId => {
-            CheckingTrans.find({owner:cId})
-        })
-        .then(transactions => {
-            transArray.push(...transactions.filter(date.slice(indexOf('/')) === month))
-        })
-        .then(transArray => res.send(transArray))
-    }
-    
-}
 
 
 module.exports = {

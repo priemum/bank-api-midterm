@@ -392,12 +392,12 @@ module.exports = {
             const id = req.user._id;
             Checking.findOne({owner:id})
             .then((acct) => {
-                const cBalance = acct.balance;
-                return cBalance
+                // const cBalance = acct.balance;
+                return acct
                 .then(Savings.findOne({owner:id})
                     .then(sAcct =>{
-                        const sBalance = sAcct.balance;
-                        return res.render('auth/statements', {cBalance, sBalance, cAccount:null, sAccount:null})
+                        // const sBalance = sAcct.balance;
+                        return res.render('auth/statements', {cBalance:acct.balance, sBalance:sAcct.balance, cAccount:acct, sAccount:sAcct})
                     })
                 )
             })
@@ -418,17 +418,18 @@ module.exports = {
         const {selectMonth, account} = req.body;
         Checking.findOne({owner:id})
         .then((acct) => {
+            cAccount = acct;
             cBalance = acct.balance;
         })
         Savings.findOne({owner:id})
             .then(sAcct =>{
+                sAccount = sAcct;
                 sBalance = sAcct.balance;
         })
         .catch(err => err);
         if(account === 'checking'){
             Checking.findOne({owner:id})
             .then(acct => {
-                cAccount = acct;
                 CheckingTrans.find({owner:acct._id})
                 .then(transactions => {
                     transactions.forEach(trans => {
@@ -460,13 +461,12 @@ module.exports = {
                         })
                     })
                 })
-                res.render('auth/statements', {cAccount, sAccount, cBalance, sBalance});
+                return res.render('auth/statements', {cBalance, cAccount, sBalance, sAccount});
             })
             .catch(err => err);
         } else if (account === 'savings'){
             Savings.findOne({owner:id})
             .then(acct => {
-                sAccount = acct;
                 SavingsTrans.find({owner:acct._id})
                 .then(transactions => {
                     transactions.forEach(trans => {
@@ -498,7 +498,7 @@ module.exports = {
                         })
                     })
                 })
-                res.render('auth/statements', {sAccount, cAccount, cBalance, sBalance});
+                return res.render('auth/statements', {cBalance, cAccount, sBalance, sAccount});
             })
             .catch(err => err);
         };

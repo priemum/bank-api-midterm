@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/stylesheets/transfer.css">
+    <link rel="stylesheet" href="/stylesheets/statements.css">
     <title>Statements</title>
 </head>
 <body>
@@ -18,38 +18,88 @@
         </div>
         <%- include('../partials/balanceBanners')  %> 
         <div id="main">
-            <div id="options">
-                <form action="/auth/statements" method="POST">
-                    <div id="op1" class="option">
-                        <label for="selectMonth">Select Month:</label>
-                        <br>
-                        <select id="selectMonth" name="selectMonth">
-                            <option value="1">Jan</option>
-                            <option value="2">Feb</option>
-                            <option value="3">Mar</option>
-                            <option value="4">Apr</option>
-                            <option value="5">May</option>
-                            <option value="6">Jun</option>
-                            <option value="7">Jul</option>
-                            <option value="8">Aug</option>
-                            <option value="9">Sep</option>
-                            <option value="10">Oct</option>
-                            <option value="11">Nov</option>
-                            <option value="12">Dec</option>
-                        </select>
-                    </div>
-                    <div id="op2" class="option">
-                        <label for="account">Select Account:</label>
-                        <br>
-                        <select id="account" name="account">
-                            <option value="checking">Checking</option>
-                            <option value="savings">Savings</option>
-                        </select>
-                    </div>
-                    <div id="op3" class="option">
-                        <button type="submit">Submit</button>
-                    </div>
-                </form>
+            <div id="mainTop">
+                <div id="options">
+                    <form action="/auth/statements" method="POST">
+                        <div id="op1" class="option">
+                            <label for="selectMonth">Select Month:</label>
+                            <br>
+                            <select id="selectMonth" name="selectMonth">
+                                <option value="1">Jan</option>
+                                <option value="2">Feb</option>
+                                <option value="3">Mar</option>
+                                <option value="4">Apr</option>
+                                <option value="5">May</option>
+                                <option value="6">Jun</option>
+                                <option value="7">Jul</option>
+                                <option value="8">Aug</option>
+                                <option value="9">Sep</option>
+                                <option value="10">Oct</option>
+                                <option value="11">Nov</option>
+                                <option value="12">Dec</option>
+                            </select>
+                        </div>
+                        <div id="op2" class="option">
+                            <label for="account">Select Account:</label>
+                            <br>
+                            <select id="account" name="account">
+                                <option value="checking">Checking</option>
+                                <option value="savings">Savings</option>
+                            </select>
+                        </div>
+                        <div id="op3" class="option">
+                            <button type="submit">Generate Statement</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="mainBottom">
+                <div id="checkingList">
+                    <!-- <div id="tableDiv"> -->
+                        <h3>Checking</h3>
+                            <% if (cAccount !== null) { %>
+                            <% cAccount.statements.forEach(item => { %>
+                                <div class="row">
+                                    <div class="check">
+                                        <input type="checkbox" class="delete" name="deleteCheck" id="deleteCheck"></td>
+                                    </div>
+                                    <div class="month">
+                                        <%     switch (item.month) { case 1: month = "JAN"; break; case 2: month = "FEB"; break; case 3: month = "MAR"; break; case 4: month = "APR"; break; case 5: month = "MAY"; break; case 6: month = "JUN"; break; case 7: month = "JUL"; break; case 8: month = "AUG"; break; case 9: month = "SEP"; break; case 10: month = "OCT"; break; case 11: month = "NOV"; break; case 12: month = "DEC"; break;} %> 
+                                        <p><%= item.month %></p>
+                                    </div>
+                                    <div class="viewBtn">
+                                        <form action="/auth/monthlyStatement">
+                                            <button type="submit">View</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            <% }) %>
+                            <% } %>
+                        </table> 
+                    <!-- </div> -->
+                </div>
+                <div id="savingsList">
+                        <h3>Savings</h3>
+                            <% if (sAccount) { %>
+                            <% sAccount.statements.forEach(item => { %>
+                                    <div class="row">
+                                        <div class="check">
+                                            <input type="checkbox" class="delete" name="deleteCheck" id="deleteCheck"></td>
+                                        </div>
+                                        <div class="month">
+                                            <%     switch (item.month) { case 1: month = "JAN"; break; case 2: month = "FEB"; break; case 3: month = "MAR"; break; case 4: month = "APR"; break; case 5: month = "MAY"; break; case 6: month = "JUN"; break; case 7: month = "JUL"; break; case 8: month = "AUG"; break; case 9: month = "SEP"; break; case 10: month = "OCT"; break; case 11: month = "NOV"; break; case 12: month = "DEC"; break;} %> 
+                                            <p><%= item.month %></p>
+                                        </div>
+                                        <div class="viewBtn">
+                                            <form action="/auth/monthlyStatement">
+                                                <button type="submit">View</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                            <% }) %>
+                            <% } %>
+                </div>
+            </div>
             </div>
         </div>
     </div>

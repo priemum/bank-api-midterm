@@ -1,0 +1,207 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: rgb(67, 80, 93);
+    text-decoration: none;
+}
+
+#app {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: .5fr .5fr 9fr;
+}
+
+#header {
+    grid-row: 1/2;
+    display: grid;
+    grid-column: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    background-color: dodgerblue;
+    color: rgb(67, 80, 93);
+}
+
+#nav {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    text-align: left;
+    padding: 15px 0 10px 10px;
+}
+
+#title {
+    grid-column: 2/3;
+    grid-row: 1/2;
+    text-align: center;
+    padding: 10px 0 10px 0;
+}
+
+#menu {
+    grid-column: 3/4;
+    grid-row: 1/2;
+    text-align: right;
+    padding: 15px 10px 10px 0;
+}
+
+#menuOptions {
+    grid-column: 4/5;
+    display: none;
+    background-color: rgb(166, 204, 255);
+    font-size: 25px;
+    line-height: 1.5;
+    justify-content: space-between;
+    padding: 10px;
+    position: fixed;
+    right: 0;
+    z-index: 5;
+}
+
+#balances {
+    grid-row: 2/3;
+    padding-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    background-color: white;
+    font-size: 20px;
+}
+
+#checkingBal {
+    grid-row: 1/2;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#savingsBal {
+    grid-row: 2/3;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#cBalance {
+    grid-column: 1/2;
+    display: grid;
+    white-space: nowrap;
+    padding: 10px 0 10px 10px;
+}
+
+#sBalance {
+    grid-column: 1/2;
+    display: grid;
+    white-space: nowrap;
+    padding: 10px 0 10px 10px;
+}
+
+#cAmount {
+    grid-column: 2/3;
+    display: grid;
+    text-align: right;
+    padding: 10px;
+}
+
+#sAmount {
+    grid-column: 2/3;
+    display: grid;
+    text-align: right;
+    padding: 10px;
+}
+
+#main {
+    grid-row: 3/4;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+#mainTop {
+    grid-row: 1/2;
+    height: 240px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+#options {
+    margin: 20px 20px 0 20px;
+    justify-self: center;
+    height: 200px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.option {
+    padding: 20px;
+    border: 1px solid grey;
+    font-size: 20px;
+}
+
+#op1 {
+    grid-row: 1/2;
+    text-align: center;
+}
+
+#op2 {
+    grid-row: 2/3;
+    text-align: center;
+}
+
+#op3 {
+    grid-row: 3/4;
+    text-align: center;
+}
+
+input, select, button {
+    font-size: 16px;
+}
+
+#mainBottom {
+    grid-row: 2/3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* grid-template-rows: 1fr; */
+}
+
+#checkingList {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    justify-items: center;
+}
+
+#savingsList {
+    grid-column: 2/3;
+    grid-row: 1/2;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    justify-items: center;
+}
+
+.row {
+    width: 300px;
+    height: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+}
+.month {
+    grid-column: 2/3;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.check {
+    grid-column: 1/2;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.viewBtn {
+    grid-column: 3/4;
+    border: 1px solid black;
+    padding: 5px;
+}
