@@ -80,17 +80,15 @@
                             <% if (sAccount) { %>
                             <% sAccount.statements.forEach(item => { %>
                                     <div class="row">
-                                        <form action="/auth/monthlyStatement">
                                             <div class="check">
-                                                <input type="checkbox" class="delete" name="deleteCheck" id="deleteCheck"></td>
+                                                <input type="checkbox" name="deleteCheck" id="deleteCheck"></td>
                                             </div>
                                             <div class="month">
                                                 <p><%= item.month %></p>
                                             </div>
                                             <div class="viewBtn">
-                                                    <button type="submit">View</button>
+                                                    <a href="/auth/monthlyStatements" target="_blank"><button>View</button></a>
                                             </div>
-                                        </form>
                                     </div>
                             <% }) %>
                             <% } %>

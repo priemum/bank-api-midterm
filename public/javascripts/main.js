@@ -11,32 +11,6 @@ const today = () =>{
     return `${new Date().getMonth()+1}/${new Date().getDate()}/${new Date().getFullYear()}`;
 }
 
-// const test = ()=>{
-//     const id = req.user._id;
-//     Checking.findOne({owner:id})
-//     .then(acct => {
-//         console.log(acct.balance)
-//         return acct.balance
-//     })
-// }
-
-// let balanceData = {
-//     "checkingBalance": 0,
-//     "savingsBalance": 0,
-//     "cActDate": [],
-//     "cActDesc": [],
-//     "cActAmt": [],
-//     "sActDate": [],
-//     "sActDesc": [],
-//     "sActAmt": [],
-// }
-
-// function setData (){
-//     if (!localStorage.length > 0){
-//         let dataStr = JSON.stringify(balanceData);
-//         localStorage.setItem("appData", dataStr);
-//     }
-// }
 
 const checkForNumbers = (val) => {
     let f = 0;
@@ -52,29 +26,3 @@ const checkForNumbers = (val) => {
     return dot > 1 || f > 0;
 }
 
-// const clearDataObj = () => {
-//     delete dataObj.cActAmt;
-//     delete dataObj.cActDate;
-//     delete dataObj.cActDesc;
-//     delete dataObj.checkingBalance;
-//     delete dataObj.sActAmt;
-//     delete dataObj.sActDate;
-//     delete dataObj.sActDesc;
-//     delete dataObj.savingsBalance;
-// }
-
-// window.addEventListener('load', () => {
-//     document.querySelector('#cAmount')
-//     .innerText = `$${test()}`;
-    
-//     document.querySelector('#sAmount').innerText = `$${dataObj.savingsBalance}`;
-// });
-
-// let bdo = localStorage.getItem('appData');
-
-// let dataObj = JSON.parse(bdo);
-
-// function updateData (){
-//     let dataStr = JSON.stringify(dataObj);
-//     localStorage.setItem("appData", dataStr);
-// }

@@ -39,5 +39,8 @@ router.get('/statements', accountController.statementsPage);
 //post new statement
 router.post('/statements', accountController.createStatement);
 
+//test pdf
+router.get('/monthlyStatements', accountController.monthlyStatements);
+
 
 module.exports = router;

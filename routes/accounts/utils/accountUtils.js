@@ -55,46 +55,7 @@ const checkForNumbers = (val) => {
     return dot > 1 || f > 0;
 };
 
-const checkMonth = (selectMonth) => {
-    switch (selectMonth) {
-        case 1:
-          month = "JAN";
-          break;
-        case 2:
-          month = "FEB";
-          break;
-        case 3:
-          month = "MAR";
-          break;
-        case 4:
-          month = "APR";
-          break;
-        case 5:
-          month = "MAY";
-          break;
-        case 6:
-          month = "JUN";
-          break;
-        case 7:
-          month = "JUL";
-          break;
-        case 8:
-          month = "AUG";
-          break;
-        case 9:
-          month = "SEP";
-          break;
-        case 10:
-          month = "OCT";
-          break;
-        case 11:
-          month = "NOV";
-          break;
-        case 12:
-          month = "DEC";
-          break;
-      }
-};
+
 
 const alphMonth = (numMonth) => {
   let month = '';
@@ -124,13 +85,23 @@ const alphMonth = (numMonth) => {
             month = 'Dec';
         }
         return month;
-    }
+    };
 
+const checkStatements = (arr, val) => {
+    let count = 0
+    for(let i = 0; i < arr.length; i++){
+        if(arr[i].month === val){
+            count++;
+        }
+    }
+    return count > 0 ? true : false;
+}
 
 module.exports = {
     randomGen,
     generateAccountNumber,
     uniqueAccountNumber,
     checkForNumbers,
-    alphMonth
+    alphMonth,
+    checkStatements
 }

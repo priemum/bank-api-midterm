@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Monthly Statement</title>
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/pdfmake.min.js" integrity="sha256-wHsYlzQ9EnjIdWOKOlQcOIw4imM+CDwRJ6NhkvJ96iY=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/vfs_fonts.js" integrity="sha256-UsYCHdwExTu9cZB+QgcOkNzUCTweXr5cNfRlAAtIlPY=" crossorigin="anonymous"></script>
 <body>
-    <script>
-        const docDefinition = { content:["testing 1,2,3"]};
-        pdfMake.createPdf(docDefinition).open() 
-    </script>
+    
+        <div id="contents">
+            <%= statements %> 
+            <p style="text-decoration: underline;"><%= statements[0].owner %> </p>
+        </div>
+        <script>
+            const test = document.querySelector('#contents').innerText
+        const docDefinition = { content:test};
+            pdfMake.createPdf(docDefinition).open({}, window); 
+</script>
 </body>
 </html>
