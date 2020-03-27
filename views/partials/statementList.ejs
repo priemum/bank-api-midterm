@@ -1,35 +1,41 @@
-    <div class="checkingList">
-        <div id="tableDiv">
-            <h3>Checking</h3>
-            <table id="table">
+<div id="mainBottom">
+    <div id="checkingList">
+            <h2>Checking</h2>
+                <% if (cAccount !== null) { let count = 0 %>
                 <% cAccount.statements.forEach(item => { %>
-                    <tr>
-                    <td><input type="checkbox" name="delete" id="delete"></td>
-                    <%     switch (item.month) { case 1: month = "JAN"; break; case 2: month = "FEB"; break; case 3: month = "MAR"; break; case 4: month = "APR"; break; case 5: month = "MAY"; break; case 6: month = "JUN"; break; case 7: month = "JUL"; break; case 8: month = "AUG"; break; case 9: month = "SEP"; break; case 10: month = "OCT"; break; case 11: month = "NOV"; break; case 12: month = "DEC"; break;} %> 
-                    <td id="month"><%= month %></td>
-                    <td>
-                        <form action="/auth/monthlyStatement">
-                            <button type="submit">View</button>
-                    </td>
-                <% }) %>
+                    <div class="row" id="crow<%= count %>">
+                        <div class="check">
+                            <input type="checkbox" class="delete" name="deleteCheck" id="deleteCheck"></td>
+                        </div>
+                        <div class="month">
+                            <p id="cMonth<%= count %>"><%= item.month %></p>
+                        </div>
+                        <div class="viewBtn" id="cViewBtn<%= count %>">
+                            <form action="/auth/monthlyStatement<%= document.querySelector('#cMonth').innerText %>">
+                                <button type="submit">View</button>
+                            </form>
+                        </div>
+                    </div>
+                <% count++ }) %>
+                <% } %>
             </table> 
-        </div>
     </div>
     <div id="savingsList">
-        <div class="tableDiv">
-            <h3>Checking</h3>
-            <table id="table">
+            <h2>Savings</h2>
+                <% if (sAccount !== null) {let count = 0 %>
                 <% sAccount.statements.forEach(item => { %>
-                    <tr>
-                    <td><input type="checkbox" name="delete" id="delete"></td>
-                    <%     switch (item.month) { case 1: month = "JAN"; break; case 2: month = "FEB"; break; case 3: month = "MAR"; break; case 4: month = "APR"; break; case 5: month = "MAY"; break; case 6: month = "JUN"; break; case 7: month = "JUL"; break; case 8: month = "AUG"; break; case 9: month = "SEP"; break; case 10: month = "OCT"; break; case 11: month = "NOV"; break; case 12: month = "DEC"; break;} %> 
-                    <td id="month"><%= month %></td>
-                    <td>
-                        <form action="/auth/monthlyStatement">
-                            <button type="submit">View</button>
-                    </td>
-                <% }) %>
-            </table> 
-        </div>
+                        <div class="row" id="srow<%= count %>">
+                                <div class="check">
+                                    <input type="checkbox" name="deleteCheck" id="deleteCheck"></td>
+                                </div>
+                                <div class="month">
+                                    <p id="sMonth<%= count %>"><%= item.month %></p>
+                                </div>
+                                <div class="viewBtn" id="sViewBtn<%= count %>">
+                                        <a href="/auth/monthlyStatements/<%= document.querySelector('#sMonth').innerText %>" target="_blank"><button>View</button></a>
+                                </div>
+                        </div>
+                <% count++ }) %>
+                <% } %>
     </div>
 </div>

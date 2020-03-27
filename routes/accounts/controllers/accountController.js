@@ -506,11 +506,12 @@ module.exports = {
     monthlyStatements: (req, res) => {
         let cAccount = {};
         let sAccount = {};
+        const {month} = req.params
         Checking.findOne({owner:req.user._id})
         .then((acct) => {
             CheckingStatement.find({owner:acct})
         .then(statements => {
-            return res.render('auth/monthlyStatement', {statements})
+            return res.render('auth/monthlyStatement', {statement:statements.filter(item => {item.month === month})})
             // cBalance = acct.balance;
         })
         // Savings.findOne({owner:req.user._id})

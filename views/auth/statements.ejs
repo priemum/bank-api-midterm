@@ -53,50 +53,10 @@
                     </form>
                 </div>
             </div>
-            <div id="mainBottom">
-                <div id="checkingList">
-                        <h2>Checking</h2>
-                            <% if (cAccount !== null) { %>
-                            <% cAccount.statements.forEach(item => { %>
-                                <div class="row">
-                                    <div class="check">
-                                        <input type="checkbox" class="delete" name="deleteCheck" id="deleteCheck"></td>
-                                    </div>
-                                    <div class="month">
-                                        <p><%= item.month %></p>
-                                    </div>
-                                    <div class="viewBtn">
-                                        <form action="/auth/monthlyStatement">
-                                            <button type="submit">View</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            <% }) %>
-                            <% } %>
-                        </table> 
-                </div>
-                <div id="savingsList">
-                        <h2>Savings</h2>
-                            <% if (sAccount) { %>
-                            <% sAccount.statements.forEach(item => { %>
-                                    <div class="row">
-                                            <div class="check">
-                                                <input type="checkbox" name="deleteCheck" id="deleteCheck"></td>
-                                            </div>
-                                            <div class="month">
-                                                <p><%= item.month %></p>
-                                            </div>
-                                            <div class="viewBtn">
-                                                    <a href="/auth/monthlyStatements" target="_blank"><button>View</button></a>
-                                            </div>
-                                    </div>
-                            <% }) %>
-                            <% } %>
-                </div>
-            </div>
+            <%- include('../partials/statementList')  %> 
             </div>
         </div>
-    </div>
+    <!-- </div> -->
     <script src="/javascripts/main.js"></script>
 </body>
 </html>

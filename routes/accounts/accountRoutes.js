@@ -40,7 +40,7 @@ router.get('/statements', accountController.statementsPage);
 router.post('/statements', accountController.createStatement);
 
 //test pdf
-router.get('/monthlyStatements', accountController.monthlyStatements);
+router.get('/monthlyStatements/:id', accountController.monthlyStatements);
 
 
 module.exports = router;
