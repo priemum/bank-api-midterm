@@ -10,11 +10,11 @@
 <body>
     
         <div id="contents">
-            <%= statements %> 
-            <p style="text-decoration: underline;"><%= statements[0].owner %> </p>
+           <p><%= statement1['transactions'] %> </p>
+            
         </div>
         <script>
-            const test = document.querySelector('#contents').innerText
+            const test = document.querySelector('#contents p').innerText
         const docDefinition = { content:test};
             pdfMake.createPdf(docDefinition).open({}, window); 
 </script>

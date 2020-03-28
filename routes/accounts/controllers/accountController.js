@@ -506,12 +506,17 @@ module.exports = {
     monthlyStatements: (req, res) => {
         let cAccount = {};
         let sAccount = {};
-        const {month} = req.params
+        const {account, month} = req.params
         Checking.findOne({owner:req.user._id})
         .then((acct) => {
-            CheckingStatement.find({owner:acct})
+            CheckingStatement.find({owner:acct._id})
         .then(statements => {
-            return res.render('auth/monthlyStatement', {statement:statements.filter(item => {item.month === month})})
+            const statement = [];
+            for(const item of statements){
+                if(item.month === month)
+                    statement.push(item);
+            }
+            return res.render('auth/monthlyStatement', {statement1:statement[0]})
             // cBalance = acct.balance;
         })
         // Savings.findOne({owner:req.user._id})

@@ -3,17 +3,17 @@
             <h2>Checking</h2>
                 <% if (cAccount !== null) { let count = 0 %>
                 <% cAccount.statements.forEach(item => { %>
-                    <div class="row" id="crow<%= count %>">
+                    <div class="row" id="cRow<%= count %>">
                         <div class="check">
                             <input type="checkbox" class="delete" name="deleteCheck" id="deleteCheck"></td>
                         </div>
                         <div class="month">
                             <p id="cMonth<%= count %>"><%= item.month %></p>
                         </div>
-                        <div class="viewBtn" id="cViewBtn<%= count %>">
-                            <form action="/auth/monthlyStatement<%= document.querySelector('#cMonth').innerText %>">
-                                <button type="submit">View</button>
-                            </form>
+                        <div class="viewBtn">
+                            <button>
+                                <a href="/auth/monthlyStatements/checking/<%= item.month %>" target="_blank">View</a>
+                            </button>
                         </div>
                     </div>
                 <% count++ }) %>
@@ -24,15 +24,17 @@
             <h2>Savings</h2>
                 <% if (sAccount !== null) {let count = 0 %>
                 <% sAccount.statements.forEach(item => { %>
-                        <div class="row" id="srow<%= count %>">
+                        <div class="row" id="sRow<%= count %>">
                                 <div class="check">
                                     <input type="checkbox" name="deleteCheck" id="deleteCheck"></td>
                                 </div>
                                 <div class="month">
                                     <p id="sMonth<%= count %>"><%= item.month %></p>
                                 </div>
-                                <div class="viewBtn" id="sViewBtn<%= count %>">
-                                        <a href="/auth/monthlyStatements/<%= document.querySelector('#sMonth').innerText %>" target="_blank"><button>View</button></a>
+                                <div class="viewBtn">
+                                    <button>
+                                        <a href="/auth/monthlyStatements/savings/<%= item.month %>" target="_blank">View</a>
+                                    </button>
                                 </div>
                         </div>
                 <% count++ }) %>
