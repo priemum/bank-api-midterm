@@ -6,7 +6,7 @@
     <title>Monthly Statement</title>
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/pdfmake.min.js" integrity="sha256-wHsYlzQ9EnjIdWOKOlQcOIw4imM+CDwRJ6NhkvJ96iY=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/vfs_fonts.js" integrity="sha256-UsYCHdwExTu9cZB+QgcOkNzUCTweXr5cNfRlAAtIlPY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/vfs_fonts.js" integrity="sha256-UsYCHdwExTu9cZB+QgcOkNzUCTweXr5cNfRlAAtIlPY=" crossorigin="anonymous"></script>
 <body>
     <div id="contents">
         <div id="info">
@@ -14,21 +14,29 @@
             <br>
             <%= `${user.address}` %> 
             <br>
-            <%= `Account Number: ${cAccount.accountNumber}` %> 
+            <% if (cAccount !== null) { %>
+                <%= `Account Number: ${cAccount.accountNumber}` %>
+            <% } else if (sAccount !== null){%>
+                <%= `Account Number: ${sAccount.accountNumber}` %>
+            <% } %>
             <br>
             <br>
         </div>
         <div id="list">
-            <% transactions.forEach(item => { %>
-                <div>
-                    <%= `${item.date}` %>
+            <% if (transactions.length > 0) { %>
+                <% transactions.forEach(item => { %>
+                    <div>
+                        <%= `${item.date}` %>
+                        <br>
+                        <%= `$${item.amount}` %>
+                        <br>
+                        <%= `${item.description}` %>
+                    </div>
                     <br>
-                    <%= `$${item.amount}` %>
-                    <br>
-                    <%= `${item.description}` %>
-                </div>
-                <br>
-            <% }) %> 
+                <% }) %> 
+            <% } else { %>
+                <p>No transactions this month.</p>
+            <% } %> 
         </div>
     </div>
     <script>

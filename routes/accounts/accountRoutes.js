@@ -1,8 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json()
-const urlencodedParser = bodyParser.urlencoded({ extended: false })
 // const passport = require('passport');
 require('../../lib/passport');
 
@@ -42,10 +39,11 @@ router.get('/statements', accountController.statementsPage);
 //post new statement
 router.post('/statements', accountController.createStatement);
 
-//test pdf
+//render monthly statement
 router.get('/monthlyStatements/:account/:month', accountController.monthlyStatements);
 
-router.put('/deleteStatement/:account/:month', accountController.deleteStatement)
+//delete monthly statement
+router.delete('/deleteStatement/:account/:month', accountController.deleteStatement)
 
 
 module.exports = router;
