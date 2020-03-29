@@ -1,4 +1,7 @@
 require('../../../lib/passport');
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const User = require('../../users/models/User');
 const Checking = require('../models/Checking');
 const CheckingTrans = require('../models/CheckingTransaction');
@@ -6,8 +9,8 @@ const CheckingStatement = require('../models/CheckingStatement');
 const Savings = require('../models/Savings');
 const SavingsTrans = require('../models/SavingsTransaction');
 const SavingsStatement = require('../models/SavingsStatement');
-const utils = require('../utils/accountUtils')
-const dcUtils = require('../../../public/javascripts/debtCred')
+const utils = require('../utils/accountUtils');
+const dcUtils = require('../../../public/javascripts/debtCred');
 const flash = require('connect-flash');
 
 
@@ -506,9 +509,11 @@ module.exports = {
     monthlyStatements: (req, res) => {
         let cAccount = {};
         let sAccount = {};
-        const {account, month} = req.params
+        const {account, month} = req.params;
+        if(account === 'checking'){
         Checking.findOne({owner:req.user._id})
         .then((acct) => {
+            cAccount = acct
             CheckingStatement.find({owner:acct._id})
         .then(statements => {
             const statement = [];
@@ -516,7 +521,8 @@ module.exports = {
                 if(item.month === month)
                     statement.push(item);
             }
-            return res.render('auth/monthlyStatement', {statement1:statement[0]})
+            const transactions = statement[0].transactions
+            return res.render('auth/monthlyStatement', {transactions, cAccount, user:req.user})
             // cBalance = acct.balance;
         })
         // Savings.findOne({owner:req.user._id})
@@ -529,4 +535,30 @@ module.exports = {
             
         })
     }
+    },
+
+    deleteStatement: (req, res) => {
+        const {account, month} = req.params
+        Checking.findOne({_id:"5e7fc672cd23fb8be6c84412"})
+        // .then(acct => {
+        
+        //     CheckingStatement.find({owner:acct._id})
+                // .then(statements => {
+                //     const filteredStatements = statements.filter(item => item.month === month);
+                //     const statement = filteredStatements[0];
+                //     CheckingStatement.findByIdAndDelete({_id:statement._id})
+                    // Checking.find({owner:id})
+                    .then(acct => {
+                        console.log(acct)
+                        acct.statements = [];
+                        acct.save()
+                    // })
+                    .then(statement => {
+                    res.redirect('/auth/statements');
+                })
+        })
+            
+        
+    }
+    
 } 

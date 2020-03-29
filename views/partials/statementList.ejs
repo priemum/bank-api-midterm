@@ -4,8 +4,10 @@
                 <% if (cAccount !== null) { let count = 0 %>
                 <% cAccount.statements.forEach(item => { %>
                     <div class="row" id="cRow<%= count %>">
-                        <div class="check">
-                            <input type="checkbox" class="delete" name="deleteCheck" id="deleteCheck"></td>
+                        <div class="delete">
+                            <button>
+                                <a href="/auth/deleteStatement/checking/<%= item.month %>">Delete</a>
+                            </button>
                         </div>
                         <div class="month">
                             <p id="cMonth<%= count %>"><%= item.month %></p>
@@ -25,8 +27,10 @@
                 <% if (sAccount !== null) {let count = 0 %>
                 <% sAccount.statements.forEach(item => { %>
                         <div class="row" id="sRow<%= count %>">
-                                <div class="check">
-                                    <input type="checkbox" name="deleteCheck" id="deleteCheck"></td>
+                                <div class="delete">
+                                    <button>
+                                        <a href="/auth/deleteStatement/savings/<%= item.month %>">Delete</a>
+                                    </button>
                                 </div>
                                 <div class="month">
                                     <p id="sMonth<%= count %>"><%= item.month %></p>

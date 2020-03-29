@@ -8,15 +8,39 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/pdfmake.min.js" integrity="sha256-wHsYlzQ9EnjIdWOKOlQcOIw4imM+CDwRJ6NhkvJ96iY=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/vfs_fonts.js" integrity="sha256-UsYCHdwExTu9cZB+QgcOkNzUCTweXr5cNfRlAAtIlPY=" crossorigin="anonymous"></script>
 <body>
-    
-        <div id="contents">
-           <p><%= statement1['transactions'] %> </p>
-            
+    <div id="contents">
+        <div id="info">
+            <%= `${user.profile.name}` %> 
+            <br>
+            <%= `${user.address}` %> 
+            <br>
+            <%= `Account Number: ${cAccount.accountNumber}` %> 
+            <br>
+            <br>
         </div>
-        <script>
-            const test = document.querySelector('#contents p').innerText
-        const docDefinition = { content:test};
-            pdfMake.createPdf(docDefinition).open({}, window); 
-</script>
+        <div id="list">
+            <% transactions.forEach(item => { %>
+                <div>
+                    <%= `${item.date}` %>
+                    <br>
+                    <%= `$${item.amount}` %>
+                    <br>
+                    <%= `${item.description}` %>
+                </div>
+                <br>
+            <% }) %> 
+        </div>
+    </div>
+    <script>
+        const userInfo = document.querySelector('#info').innerText;
+        const transList = document.querySelector('#list').innerText;
+        const docDefinition = { 
+            content:[
+                {text:`${userInfo}`, fontSize:18},
+                {text:`${transList}`, fontSize:12}
+            ]
+        };
+        pdfMake.createPdf(docDefinition).open({}, window);
+    </script>
 </body>
 </html>
