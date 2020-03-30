@@ -1,7 +1,5 @@
 const Checking = require('../models/Checking');
-const CheckingTrans = require('../models/CheckingTransaction');
 const Savings = require('../models/Savings');
-const SavingsTrans = require('../models/SavingsTransaction');
 
 //generate random number inclusive of min and max
 const randomGen = (min, max) => {
@@ -20,26 +18,26 @@ const generateAccountNumber = () => {
 };
 
 //check for unique account number
-const uniqueAccountNumber = () => {
-    let acctNum = generateAccountNumber();
-    Checking.findOne({accountNumber: acctNum})
-        .then(acct => {
-            if(acct){
-                uniqueAccountNumber();
-            } else {
-                Savings.find({acctNum})
-                .then(acct => {
-                    if(acct){
-                        uniqueAccountNumber();
-                    } else {
-                        return acctNum;
-                    }
-                })
-                .catch(err => reject(err));
-            }
-        })
-        .catch(err => reject(err));
-};
+// const uniqueAccountNumber = () => {
+//     let acctNum = generateAccountNumber();
+//     Checking.findOne({accountNumber: acctNum})
+//         .then(acct => {
+//             if(acct){
+//                 uniqueAccountNumber();
+//             } else {
+//                 Savings.find({acctNum})
+//                 .then(acct => {
+//                     if(acct){
+//                         uniqueAccountNumber();
+//                     } else {
+//                         return acctNum;
+//                     }
+//                 })
+//                 .catch(err => reject(err));
+//             }
+//         })
+//         .catch(err => reject(err));
+// };
 
 const checkForNumbers = (val) => {
     if(!val || val === '' || val === ' '){
@@ -61,7 +59,7 @@ const checkForNumbers = (val) => {
 
 
 const alphMonth = (numMonth) => {
-  let month = '';
+    let month = '';
         if(numMonth === '1'){
             month = 'Jan';
         } else if(numMonth === '2'){
@@ -87,36 +85,11 @@ const alphMonth = (numMonth) => {
         } else if(numMonth === '12'){
             month = 'Dec';
         }
-        return month;
-    };
-
-const checkStatements = (arr, val) => {
-    let count = 0
-    for(let i = 0; i < arr.length; i++){
-        if(arr[i].month === val){
-            count++;
-        }
-    }
-    return count > 0 ? true : false;
+    return month;
 };
-
-const alert1 = (text) => {
-    alert(text);
-};
-
-const money = ()=>{
-    const cBalance = document.querySelector('#cAmount');
-    const sBalance = document.querySelector('#sAmount');
-    return cBalance, sBalance;
-}
 
 module.exports = {
-    randomGen,
     generateAccountNumber,
-    uniqueAccountNumber,
     checkForNumbers,
-    alphMonth,
-    checkStatements,
-    alert1,
-    money
+    alphMonth
 }

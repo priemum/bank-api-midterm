@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs');
 const accountUtils = require('../../accounts/utils/accountUtils')
 
 module.exports = {
+    //register new user
     register: (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -123,7 +124,6 @@ module.exports = {
                         if (result === false) {
                             reject('Old Password Incorrect');
                         } else {
-                            console.log('save please');
                             user.password = params.newPassword;
                             user
                             .save()

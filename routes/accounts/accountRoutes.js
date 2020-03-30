@@ -1,10 +1,7 @@
 const express = require('express');
 const router = express.Router();
-// const passport = require('passport');
 require('../../lib/passport');
-
 const accountController = require('./controllers/accountController');
-// const userValidation = require('./utils/userValidation');
 
 //render options page
 router.get('/options', accountController.options);
@@ -27,10 +24,10 @@ router.get('/transfer', accountController.transferPage);
 //post transfer to accounts
 router.post('/transfer', accountController.transfer);
 
-//post transfer to accounts
+//render send money page
 router.get('/sendMoney', accountController.sendMoneyPage);
 
-//post transfer to accounts
+//send money from one person to another
 router.post('/sendMoney', accountController.sendMoney);
 
 //render statements page

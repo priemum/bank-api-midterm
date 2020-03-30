@@ -10,6 +10,8 @@
 <body>
     <div id="contents">
         <div id="info">
+            <br>
+            <br>
             <%= `${user.profile.name}` %> 
             <br>
             <%= `${user.address}` %> 
@@ -44,8 +46,9 @@
         const transList = document.querySelector('#list').innerText;
         const docDefinition = { 
             content:[
-                {text:`${userInfo}`, fontSize:18},
-                {text:`${transList}`, fontSize:12}
+                {text:'My Bank', fontSize:20, alignment:'center', bold:true},
+                {text:`${userInfo}`, fontSize:15},
+                {text:`${transList}`, fontSize:10}
             ]
         };
         pdfMake.createPdf(docDefinition).open({}, window);
