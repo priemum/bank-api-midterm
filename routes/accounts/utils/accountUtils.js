@@ -42,6 +42,9 @@ const uniqueAccountNumber = () => {
 };
 
 const checkForNumbers = (val) => {
+    if(!val || val === '' || val === ' '){
+        return true
+    }
     let f = 0;
     let dot = 0;
     for (const i of val){
@@ -95,6 +98,16 @@ const checkStatements = (arr, val) => {
         }
     }
     return count > 0 ? true : false;
+};
+
+const alert1 = (text) => {
+    alert(text);
+};
+
+const money = ()=>{
+    const cBalance = document.querySelector('#cAmount');
+    const sBalance = document.querySelector('#sAmount');
+    return cBalance, sBalance;
 }
 
 module.exports = {
@@ -103,5 +116,7 @@ module.exports = {
     uniqueAccountNumber,
     checkForNumbers,
     alphMonth,
-    checkStatements
+    checkStatements,
+    alert1,
+    money
 }

@@ -43,7 +43,7 @@ module.exports = {
                 .then(Savings.findOne({owner:id})
                     .then(sAcct =>{
                         const sBalance = sAcct.balance;
-                        return res.render('auth/creditDebit', {cBalance, sBalance, user:req.user.profile.name})
+                        return res.render('auth/creditDebit', {cBalance, sBalance, user:req.user.profile.name, error:null})
                     })
                 )
             })
@@ -56,8 +56,11 @@ module.exports = {
     //post transaction to account
     transaction: (req, res, next) => {
         const {dollarAmount, description, debtOrCred, acctChoice, } = req.body;
+        const id = req.user._id;
+        if(utils.checkForNumbers(dollarAmount)){
+            return res.render('auth/error', {error:'Please enter dollar amount as a number. Example: 100.00'})
+        }
         if(acctChoice === 'checking'){
-            const id = req.user._id;
             Checking.findOne({owner:id})
                 .then((acct) => {
                     if(debtOrCred === 'withdrawal'){
@@ -135,6 +138,9 @@ module.exports = {
     //post transfers between checking/savings accounts
     transfer: (req, res, next) => {
         const {transAmount, transFrom, transTo} = req.body;
+        if(utils.checkForNumbers(transAmount)){
+            return res.render('auth/error', {error:'Please enter transfer amount as a number. Example: 100.00'})
+        }
         if(transFrom === 'checking'){
             const id = req.user._id;
             Checking.findOne({owner:id})
@@ -228,9 +234,6 @@ module.exports = {
             .then((acct) => {
                 const cBalance = acct.balance;
                 CheckingTrans.find({owner:acct._id})
-                .then(transactions => {
-                    const cTransactions = transactions;
-                    return (cTransactions)})
                 .then(cTransactions =>
                     Savings.findOne({owner:id})
                     .then(sAcct =>{
@@ -253,9 +256,6 @@ module.exports = {
             .then((acct) => {
                 const sBalance = acct.balance;
                 SavingsTrans.find({owner:acct._id})
-                .then(transactions => {
-                    const sTransactions = transactions;
-                    return (sTransactions)})
                 .then(sTransactions =>
                     Checking.findOne({owner:id})
                     .then(cAcct =>{
@@ -294,6 +294,12 @@ module.exports = {
     //post send transaction to account
     sendMoney: (req, res, next) => {
         const {dollarAmount, sendTo, sendFrom, } = req.body;
+        if(utils.checkForNumbers(dollarAmount)){
+            return res.render('auth/error', {error:'Please enter dollar amount as a number. Example: 100.00'})
+        }
+        if(!sendTo.includes('@') || !sendTo.includes('.')){
+            return res.render('auth/error', {error:'Please enter send to as a valid email. Example: me@me.com'})
+        }
         if(sendFrom === 'checking'){
             const id = req.user._id;
             Checking.findOne({owner:id})

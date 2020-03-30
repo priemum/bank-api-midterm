@@ -15,8 +15,7 @@ module.exports = {
         const { name, email, password } = req.body;
         User.findOne({ email }).then(user => {
             if (user) {
-                // return req.flash('errors', 'User Already Exists');
-                return res.send('User Exists');
+                return res.render('auth/error', {error:'User exists'});
             } else {
                 const newUser = new User();
                 newUser.profile.name = name;
@@ -49,7 +48,6 @@ module.exports = {
                             .json({ confirmation: false, message: err });
                         } else {
                             res.redirect('/auth/options');
-                            // next();
                         }
                     });
                 })
