@@ -61,6 +61,7 @@ module.exports = {
         .catch(err => reject(err));
     },
 
+    //render profile page
     profilePage: (req, res, next) => {
         if (req.isAuthenticated()) {
             return res.render('auth/profile');
@@ -69,6 +70,7 @@ module.exports = {
         }
     },
 
+    //render update profile page
     updateProfilePage: (req, res) => {
         if (req.isAuthenticated()) {
             return res.render('auth/updateProfile');
@@ -76,6 +78,7 @@ module.exports = {
         return res.redirect('/fail');
     },
     
+    //update profile
     updateProfile: (params, id) => {
         const {
             name,
@@ -102,6 +105,7 @@ module.exports = {
         }).catch(err => reject(err));
     },
     
+    //update password
     updatePassword: (params, id) => {
         return new Promise((resolve, reject) => {
             User.findById(id)
@@ -144,16 +148,19 @@ module.exports = {
         });
     },
 
+    //render login page
     loginPage:(req, res) => {
         return res.render('users/login', { errors: req.flash('errors') });
     },
 
+    //login user
     login: passport.authenticate('local-login', {
         successRedirect: '/auth/options',
         failureRedirect: '/api/users/login',
         failureFlash: true
     }),
 
+    //logout user, end session
     logout:(req, res) => {
         req.session.destroy();
         console.log('logout ', req.session);

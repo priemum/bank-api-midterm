@@ -40,7 +40,7 @@ router.get('/statements', accountController.statementsPage);
 router.post('/statements', accountController.createStatement);
 
 //render monthly statement
-router.get('/monthlyStatements/:account/:month', accountController.monthlyStatements);
+router.get('/monthlyStatement/:account/:month', accountController.monthlyStatement);
 
 //delete monthly statement
 router.delete('/deleteStatement/:account/:month', accountController.deleteStatement)

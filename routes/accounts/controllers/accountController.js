@@ -22,7 +22,7 @@ module.exports = {
                 .then(Savings.findOne({owner:id})
                     .then(sAcct =>{
                         const sBalance = sAcct.balance;
-                        return res.render('auth/options', {cBalance, sBalance})
+                        return res.render('auth/options', {cBalance, sBalance, user:req.user.profile.name})
                     })
                 )
             })
@@ -43,7 +43,7 @@ module.exports = {
                 .then(Savings.findOne({owner:id})
                     .then(sAcct =>{
                         const sBalance = sAcct.balance;
-                        return res.render('auth/creditDebit', {cBalance, sBalance})
+                        return res.render('auth/creditDebit', {cBalance, sBalance, user:req.user.profile.name})
                     })
                 )
             })
@@ -111,6 +111,28 @@ module.exports = {
         }
     },
     
+    //render transfer page
+    transferPage: (req, res) => {
+        if(req.isAuthenticated()){
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+            .then((acct) => {
+                const cBalance = acct.balance;
+                return cBalance
+                .then(Savings.findOne({owner:id})
+                    .then(sAcct =>{
+                        const sBalance = sAcct.balance;
+                        return res.render('auth/transfer', {cBalance, sBalance, user:req.user.profile.name})
+                    })
+                )
+            })
+            .catch(err => err);
+        }else {
+            return res.redirect('/fail');
+        };
+    },
+
+    //post transfers between checking/savings accounts
     transfer: (req, res, next) => {
         const {transAmount, transFrom, transTo} = req.body;
         if(transFrom === 'checking'){
@@ -213,7 +235,7 @@ module.exports = {
                     Savings.findOne({owner:id})
                     .then(sAcct =>{
                         const sBalance = sAcct.balance;
-                        return res.render('auth/checking', {cTransactions, cBalance, sBalance})
+                        return res.render('auth/checking', {cTransactions, cBalance, sBalance, user:req.user.profile.name})
                     })
                 )
             })
@@ -238,33 +260,12 @@ module.exports = {
                     Checking.findOne({owner:id})
                     .then(cAcct =>{
                         const cBalance = cAcct.balance;
-                        return res.render('auth/savings', {sTransactions, cBalance, sBalance})
+                        return res.render('auth/savings', {sTransactions, cBalance, sBalance, user:req.user.profile.name})
                     })
                 )
             })
             .catch(err => err);
         } else {
-            return res.redirect('/fail');
-        };
-    },
-
-    //render transfer page
-    transferPage: (req, res) => {
-        if(req.isAuthenticated()){
-            const id = req.user._id;
-            Checking.findOne({owner:id})
-            .then((acct) => {
-                const cBalance = acct.balance;
-                return cBalance
-                .then(Savings.findOne({owner:id})
-                    .then(sAcct =>{
-                        const sBalance = sAcct.balance;
-                        return res.render('auth/transfer', {cBalance, sBalance})
-                    })
-                )
-            })
-            .catch(err => err);
-        }else {
             return res.redirect('/fail');
         };
     },
@@ -280,7 +281,7 @@ module.exports = {
                 .then(Savings.findOne({owner:id})
                     .then(sAcct =>{
                         const sBalance = sAcct.balance;
-                        return res.render('auth/sendMoney', {cBalance, sBalance})
+                        return res.render('auth/sendMoney', {cBalance, sBalance, user:req.user.profile.name})
                     })
                 )
             })
@@ -290,7 +291,7 @@ module.exports = {
         };
     },
 
-    //post transaction to account
+    //post send transaction to account
     sendMoney: (req, res, next) => {
         const {dollarAmount, sendTo, sendFrom, } = req.body;
         if(sendFrom === 'checking'){
@@ -403,8 +404,7 @@ module.exports = {
                                 sStatements.forEach(item => {
                                     sStatementList.push({month:item.month});
                                 });
-                                console.log(sStatementList)
-                                return res.render('auth/statements', {cBalance:acct.balance, sBalance:sAcct.balance, cStatementList, sStatementList})
+                                return res.render('auth/statements', {cBalance:acct.balance, sBalance:sAcct.balance, cStatementList, sStatementList, user:req.user.profile.name})
                             })
                         })
                 })
@@ -522,7 +522,8 @@ module.exports = {
         })
     },
     
-    monthlyStatements: (req, res) => {
+    //render monthly statement
+    monthlyStatement: (req, res) => {
         let cAccount = {};
         let sAccount = {};
         const {account, month} = req.params;
@@ -559,6 +560,7 @@ module.exports = {
         };     
     },
 
+    //delete statement
     deleteStatement: (req, res) => {
         const {account, month} = req.params
         if(account === 'checking'){
