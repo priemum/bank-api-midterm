@@ -1,6 +1,3 @@
-const Checking = require('../models/Checking');
-const Savings = require('../models/Savings');
-
 //generate random number inclusive of min and max
 const randomGen = (min, max) => {
     min = Math.ceil(min);
@@ -88,8 +85,17 @@ const alphMonth = (numMonth) => {
     return month;
 };
 
+const adjAmount = (dollarAmount) => {
+    if(dollarAmount.includes('.')){
+        return dollarAmount.slice(0, (dollarAmount.indexOf('.') + 3));
+    }
+    return dollarAmount;
+};
+
+
 module.exports = {
     generateAccountNumber,
     checkForNumbers,
-    alphMonth
+    alphMonth,
+    adjAmount
 }
