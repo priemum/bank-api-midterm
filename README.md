@@ -38,8 +38,6 @@ Once registered or logged in, you will be brought to an page with all available 
 
 The following video demonstrates how each feature works:
 
-<figure class="video_container">
-  <iframe src="https://www.youtube.com/embed/nKYmAuzL6JY" frameborder="0" allowfullscreen="true"> </iframe>
-</figure>
+[![video](http://img.youtube.com/vi/nKYmAuzL6JY/0.jpg)](http://www.youtube.com/watch?v=nKYmAuzL6JY "My Bank demo")
 
 Thank you again for stopping by.
