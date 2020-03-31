@@ -9,7 +9,7 @@ const CheckingTransactionSchema = new mongoose.Schema({
     transType:{type:String},
     description:{type:String, uppercase:true, default:''},
     amount:{type:String},
-    newBalance:{type:Number}
+    newBalance:{type:String}
 });
 
 module.exports = mongoose.model('CheckingTrans', CheckingTransactionSchema);

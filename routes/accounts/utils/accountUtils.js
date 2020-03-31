@@ -88,8 +88,9 @@ const alphMonth = (numMonth) => {
 const adjAmount = (dollarAmount) => {
     if(dollarAmount.includes('.')){
         return dollarAmount.slice(0, (dollarAmount.indexOf('.') + 3));
-    }
-    return dollarAmount;
+    };
+    const dolAsNumber = Number(dollarAmount);
+    return dolAsNumber.toFixed(2);
 };
 
 

@@ -13,7 +13,7 @@
             <p id="title">My Bank</p>
             <% let fullMonth = '' %> 
             <% if (month === 'Jan') { %>
-                <% fullMonth = January %> 
+                <% fullMonth = 'January' %> 
             <% } else if (month === 'Feb') {%>
                 <% fullMonth = 'February' %>
             <% } else if (month === 'Mar') { %>
@@ -60,6 +60,8 @@
                 <% transactions.forEach(item => { %>
                     <div>
                         <%= `${item.date}` %>
+                        <br>
+                        <%= `${item.transType}` %>
                         <br>
                         <%= `$${item.amount}` %>
                         <br>

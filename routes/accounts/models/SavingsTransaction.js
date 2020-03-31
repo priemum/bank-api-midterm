@@ -8,8 +8,8 @@ const SavingsTransactionSchema = new mongoose.Schema({
     date:{type:String, default:today()},
     transType:{type:String},
     description:{type:String, uppercase:true, default:''},
-    amount:{type:Number},
-    newBalance:{type:Number}
+    amount:{type:String},
+    newBalance:{type:String}
 });
 
 module.exports = mongoose.model('SavingsTrans', SavingsTransactionSchema);

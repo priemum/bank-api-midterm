@@ -68,13 +68,13 @@ module.exports = {
             Checking.findOne({owner:id})
                 .then((acct) => {
                     if(debtOrCred === 'withdrawal'){
-                        if(acct.balance - Number(adjDolAmt) < 0){
+                        if(Number(acct.balance) - Number(adjDolAmt) < 0){
                             return res.render('auth/error', {error:'Cannot complete transaction. Not enough funds.'});
                         } else {
-                            acct.balance -= Number(adjDolAmt);
+                            acct.balance = (Number(acct.balance) - Number(adjDolAmt)).toFixed(2);
                         };
                     } else if(debtOrCred === 'deposit'){
-                        acct.balance += Number(adjDolAmt);
+                        acct.balance = (Number(acct.balance) + Number(adjDolAmt)).toFixed(2);
                     };
                     acct.save()
                     .then((acct) => {
@@ -98,13 +98,13 @@ module.exports = {
             Savings.findOne({owner:id})
                 .then((acct) => {
                     if(debtOrCred === 'withdrawal'){
-                            if(acct.balance - Number(adjDolAmt) < 0){
+                            if(Number(acct.balance) - Number(adjDolAmt) < 0){
                                 return res.render('auth/error', {error:'Cannot complete transaction. Not enough funds.'});
                             } else {
-                                acct.balance -= Number(adjDolAmt);
+                                acct.balance = (Number(acct.balance) - Number(adjDolAmt)).toFixed(2);
                             };
                     } else if(debtOrCred === 'deposit'){
-                        acct.balance += Number(adjDolAmt);
+                        acct.balance = (Number(acct.balance) + Number(adjDolAmt)).toFixed(2);
                     };
                     acct.save()
                     .then((acct) => {
@@ -159,14 +159,14 @@ module.exports = {
             Checking.findOne({owner:id})
                 .then((acct) => {
                     if(transTo === 'savings'){
-                            if(acct.balance - Number(adjAmount) < 0){
+                            if(Number(acct.balance) - Number(adjAmount) < 0){
                                 return res.render('auth/error', {error:'Cannot complete transaction. Not enough funds.'});
                             } else {
-                                acct.balance -= Number(adjAmount);
+                                acct.balance = (Number(acct.balance) - Number(adjAmount)).toFixed(2);
                             };
                         Savings.findOne({owner:acct.owner})
                         .then(sAcct => {
-                            sAcct.balance += Number(adjAmount);
+                            sAcct.balance = (Number(sAcct.balance) + Number(adjAmount)).toFixed(2);
                             sAcct.save()
                             .then((acct) => {
                                 const newTrans = new SavingsTrans();
@@ -204,22 +204,22 @@ module.exports = {
             Savings.findOne({owner:id})
             .then((acct) => {
                 if(transTo === 'checking'){
-                    if(acct.balance - Number(adjAmount) < 0){
+                    if(Number(acct.balance) - Number(adjAmount) < 0){
                         return res.render('auth/error', {error:'Cannot complete transaction. Not enough funds.'})
                     } else {
-                        acct.balance -= Number(adjAmount);
+                        acct.balance = (Number(acct.balance) - Number(adjAmount)).toFixed(2);
                     };
                     Checking.findOne({owner:acct.owner})
                         .then(cAcct => {
-                            cAcct.balance += Number(adjAmount);
+                            cAcct.balance = (Number(cAcct.balance) + Number(adjAmount)).toFixed(2);
                             cAcct.save()
                             .then((acct) => {
                                 const newTrans = new CheckingTrans();
-                                newTrans.owner = acct._id;
+                                newTrans.owner = cAcct._id;
                                 newTrans.transType = 'deposit';
                                 newTrans.description = 'transfer from savings';
                                 newTrans.amount = adjAmount;
-                                newTrans.newBalance = acct.balance;
+                                newTrans.newBalance = cAcct.balance;
                                 newTrans.save()
                             })
                         });
@@ -327,10 +327,10 @@ module.exports = {
             Checking.findOne({owner:id})
                 .then((acct) => {
                     if(sendTo){
-                        if(acct.balance - Number(adjAmount) < 0){
+                        if(Number(acct.balance) - Number(adjAmount) < 0){
                             return res.render('auth/error', {error:'Cannot complete transaction. Not enough funds.'});
                         } else {
-                            acct.balance -= Number(adjAmount);
+                            acct.balance = (Number(acct.balance) - Number(adjAmount)).toFixed(2);
                         };
                         acct.save()
                         .then((acct) => {
@@ -344,12 +344,15 @@ module.exports = {
                         });
                         User.findOne({email:sendTo})
                         .then(user => {
+                            if(!user){
+                                return res.render('auth/error', {error:'The person you are trying to send to does not exist.'})
+                            }
                             return user._id;
                         })
                         .then(idTo => {
                             Checking.findOne({owner:idTo})
                             .then(acct => {
-                                acct.balance += Number(adjAmount);
+                                acct.balance = (Number(acct.balance) + Number(adjAmount)).toFixed(2);
                                 acct.save()
                                 .then((acct) => {
                                 const newTrans = new CheckingTrans();
@@ -375,10 +378,10 @@ module.exports = {
             Savings.findOne({owner:id})
                 .then((acct) => {
                     if(sendTo){
-                        if(acct.balance - Number(adjAmount) < 0){
+                        if(Number(acct.balance) - Number(adjAmount) < 0){
                             return res.render('auth/error', {error:'Cannot complete transaction. Not enough funds.'});
                         } else {
-                            acct.balance -= Number(adjAmount);
+                            acct.balance = (Number(acct.balance) - Number(adjAmount)).toFixed(2);
                         };
                         acct.save()
                         .then((acct) => {
@@ -397,7 +400,7 @@ module.exports = {
                         .then(idTo => {
                             Checking.findOne({owner:idTo})
                             .then(acct => {
-                                acct.balance += Number(adjAmount);
+                                acct.balance = (Number(acct.balance) + Number(adjAmount)).toFixed(2);
                                 acct.save()
                                 .then((acct) => {
                                 const newTrans = new CheckingTrans();

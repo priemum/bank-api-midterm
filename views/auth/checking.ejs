@@ -42,8 +42,8 @@
                         <td id="actionDate"><%= sortedTransactions[i].date %></td>
                         <td id="actionDesc"><%= sortedTransactions[i].description %></td>
                         <% if (sortedTransactions[i].transType === 'withdrawal') { %>
-                            <% let transAmount = `-$${sortedTransactions[i].amount}` %>
-                            <td id="actionAmount"><%= transAmount %></td>
+                            <% let transAmount = `(-$${sortedTransactions[i].amount})` %>
+                            <td id="actionAmount" style="color: firebrick;"><%= transAmount %></td>
                         <% } else { %>
                             <% let transAmount = `$${sortedTransactions[i].amount}` %>
                             <td id="actionAmount"><%= transAmount %></td>
