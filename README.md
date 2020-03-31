@@ -37,11 +37,9 @@ Once registered or logged in, you will be brought to an page with all available 
 
 
 The following video demonstrates how each feature works:
-<figure class="video_container">
-  <video controls="true" allowfullscreen="true" >
-    <source src="https://youtube.com/embed/nKYmAuzL6JY">
-  </video>
-</figure>
 
+<figure class="video_container">
+  <iframe src="https://www.youtube.com/embed/nKYmAuzL6JY" frameborder="0" allowfullscreen="true"> </iframe>
+</figure>
 
 Thank you again for stopping by.
