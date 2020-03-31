@@ -575,7 +575,7 @@ module.exports = {
                         statement.push(item);
                 }
                 const transactions = statement[0].transactions
-                return res.render('auth/monthlyStatement', {transactions, cAccount, sAccount:null, user:req.user})
+                return res.render('auth/monthlyStatement', {transactions, cAccount, sAccount:null, user:req.user, month})
             })
         })
         } else if (account === 'savings'){
@@ -590,7 +590,7 @@ module.exports = {
                             statement.push(item);
                     }
                     const transactions = statement[0].transactions
-                    return res.render('auth/monthlyStatement', {transactions, sAccount, cAccount:null, user:req.user})
+                    return res.render('auth/monthlyStatement', {transactions, sAccount, cAccount:null, user:req.user, month})
                 })
             })
         };     

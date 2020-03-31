@@ -9,6 +9,36 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/vfs_fonts.js" integrity="sha256-UsYCHdwExTu9cZB+QgcOkNzUCTweXr5cNfRlAAtIlPY=" crossorigin="anonymous"></script>
 <body>
     <div id="contents">
+        <div id="heading">
+            <p id="title">My Bank</p>
+            <% let fullMonth = '' %> 
+            <% if (month === 'Jan') { %>
+                <% fullMonth = January %> 
+            <% } else if (month === 'Feb') {%>
+                <% fullMonth = 'February' %>
+            <% } else if (month === 'Mar') { %>
+                <% fullMonth = 'March' %>   
+            <% } else if (month === 'Apr') { %>
+                <% fullMonth = 'April' %>   
+            <% } else if (month === 'May') { %>
+                <% fullMonth = 'May' %>   
+            <% } else if (month === 'Jun') { %>
+                <% fullMonth = 'June' %>   
+            <% } else if (month === 'Jul') { %>
+                <% fullMonth = 'July' %>   
+            <% } else if (month === 'Aug') { %>
+                <% fullMonth = 'August' %>   
+            <% } else if (month === 'Sep') { %>
+                <% fullMonth = 'September' %>   
+            <% } else if (month === 'Oct') { %>
+                <% fullMonth = 'October' %>   
+            <% } else if (month === 'Nov') { %>
+                <% fullMonth = 'November' %>   
+            <% } else if (month === 'Dec') { %>
+                <% fullMonth = 'December' %>
+            <% } %>
+            <p id="subTitle">Statement for <%= fullMonth %> </p>
+        </div>
         <div id="info">
             <br>
             <br>
@@ -21,6 +51,7 @@
             <% } else if (sAccount !== null){%>
                 <%= `Account Number: ${sAccount.accountNumber}` %>
             <% } %>
+            <br>
             <br>
             <br>
         </div>
@@ -42,12 +73,15 @@
         </div>
     </div>
     <script>
+        const title = document.querySelector('#title').innerText;
+        const subTitle = document.querySelector('#subTitle').innerText;
         const userInfo = document.querySelector('#info').innerText;
         const transList = document.querySelector('#list').innerText;
         const docDefinition = { 
             content:[
-                {text:'My Bank', fontSize:20, alignment:'center', bold:true},
-                {text:`${userInfo}`, fontSize:15},
+                {text:`${title}`, fontSize:20, alignment:'center', bold:true},
+                {text:`${subTitle}`, fontSize:16, alignment:'center', bold:true},
+                {text:`${userInfo}`, fontSize:13},
                 {text:`${transList}`, fontSize:10}
             ]
         };
