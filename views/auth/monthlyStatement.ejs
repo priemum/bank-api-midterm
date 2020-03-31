@@ -11,7 +11,13 @@
     <div id="contents">
         <div id="heading">
             <p id="title">My Bank</p>
-            <% let fullMonth = '' %> 
+            <% let accountType = ''; %> 
+            <% let fullMonth = ''; %> 
+            <% if (cAccount !== null) { %>
+                <% accountType = 'Checking' %> 
+            <% } else if (sAccount !== null) { %>
+                <% accountType = 'Savings' %> 
+            <% } %>
             <% if (month === 'Jan') { %>
                 <% fullMonth = 'January' %> 
             <% } else if (month === 'Feb') {%>
@@ -37,7 +43,7 @@
             <% } else if (month === 'Dec') { %>
                 <% fullMonth = 'December' %>
             <% } %>
-            <p id="subTitle">Statement for <%= fullMonth %> </p>
+            <p id="subTitle"><%= accountType %> Statement for <%= fullMonth %> </p>
         </div>
         <div id="info">
             <br>
