@@ -36,6 +36,7 @@ const generateAccountNumber = () => {
 //         .catch(err => reject(err));
 // };
 
+//validate input contains only numbers and at most 1 dot
 const checkForNumbers = (val) => {
     if(!val || val === '' || val === ' '){
         return true
@@ -54,7 +55,7 @@ const checkForNumbers = (val) => {
 };
 
 
-
+//convert number month to letter month
 const alphMonth = (numMonth) => {
     let month = '';
         if(numMonth === '1'){
@@ -85,14 +86,14 @@ const alphMonth = (numMonth) => {
     return month;
 };
 
+//convert dollar amount to proper format
 const adjAmount = (dollarAmount) => {
     if(dollarAmount.includes('.')){
-        return dollarAmount.slice(0, (dollarAmount.indexOf('.') + 3));
+        const phase1 = dollarAmount.slice(0, (dollarAmount.indexOf('.') + 3));
+        return Number(phase1).toFixed(2)
     };
-    const dolAsNumber = Number(dollarAmount);
-    return dolAsNumber.toFixed(2);
+    return Number(dollarAmount).toFixed(2);
 };
-
 
 module.exports = {
     generateAccountNumber,
