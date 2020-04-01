@@ -322,6 +322,11 @@ module.exports = {
         if(!sendTo.includes('@') || !sendTo.includes('.')){
             return res.render('auth/error', {error:'Please enter send to as a valid email. Example: me@me.com'})
         }
+        User.findOne({email:sendTo})
+        .then(user => {
+            if(!user){
+            return res.render('auth/error', {error: 'The person you are trying to send to is not in the system.'})
+        } else {
         if(sendFrom === 'checking'){
             const id = req.user._id;
             Checking.findOne({owner:id})
@@ -340,15 +345,11 @@ module.exports = {
                         newTrans.description = `money sent to ${sendTo}`;
                         newTrans.amount = adjAmount;
                         newTrans.newBalance = acct.balance;
-                        // newTrans.save()
+                        newTrans.save()
                         return newTrans;
                         });
                         User.findOne({email:sendTo})
                         .then(user => {
-                            if(!user){
-                                return res.render('auth/error', {error:'The person you are trying to send to does not exist.'})
-                            }
-                            newTrans.save();
                             return user._id;
                         })
                         .then(idTo => {
@@ -424,6 +425,7 @@ module.exports = {
                     }
                 })
         }
+    }})
     },
 
     //render statements page
