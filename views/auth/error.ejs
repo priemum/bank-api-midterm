@@ -8,7 +8,13 @@
 <body>
     <br>
     <br>
+    <% if (Array.isArray(error)) { %>
+        <% error.forEach(item => { %>
+            <h1 style="color: red; text-align: center;"><%= item.msg %></h1>
+        <% }) %> 
+    <% } else {%>
     <h1 style="color: red; text-align: center;"><%= error %> </h1>
+    <% } %> 
     <br>
     <br>
     <br>

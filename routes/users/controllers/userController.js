@@ -11,7 +11,7 @@ module.exports = {
     register: (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() });
+            return res.render('auth/error', { error: errors.array() });
         }
         const { name, email, password } = req.body;
         User.findOne({ email }).then(user => {
@@ -154,9 +154,14 @@ module.exports = {
     //login user
     login: passport.authenticate('local-login', {
         successRedirect: '/auth/options',
-        failureRedirect: '/api/users/login',
+        failureRedirect: '/api/users/loginError',
         failureFlash: true
     }),
+
+    //render login error page
+    loginError: (req, res) => {
+        res.render('auth/error', {error: 'Please check that you are registered and are using the correct email address and password.'})
+    },
 
     //logout user, end session
     logout:(req, res) => {

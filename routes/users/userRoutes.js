@@ -20,6 +20,9 @@ router.get('/login', userController.loginPage);
 //login user
 router.post('/login', userController.login);
 
+//render login error page
+router.get('/loginError', userController.loginError);
+
 //render profile page
 router.get('/profile', userController.profilePage);
 

@@ -340,13 +340,15 @@ module.exports = {
                         newTrans.description = `money sent to ${sendTo}`;
                         newTrans.amount = adjAmount;
                         newTrans.newBalance = acct.balance;
-                        newTrans.save()
+                        // newTrans.save()
+                        return newTrans;
                         });
                         User.findOne({email:sendTo})
                         .then(user => {
                             if(!user){
                                 return res.render('auth/error', {error:'The person you are trying to send to does not exist.'})
                             }
+                            newTrans.save();
                             return user._id;
                         })
                         .then(idTo => {
