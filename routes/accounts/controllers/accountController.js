@@ -14,19 +14,7 @@ module.exports = {
     //render options page
     options: (req, res) => {
         if(req.isAuthenticated()){
-            const id = req.user._id;
-            Checking.findOne({owner:id})
-            .then((acct) => {
-                const cBalance = acct.balance;
-                return cBalance
-                .then(Savings.findOne({owner:id})
-                    .then(sAcct =>{
-                        const sBalance = sAcct.balance;
-                        return res.render('auth/options', {cBalance, sBalance, user:req.user.profile.name})
-                    })
-                )
-            })
-            .catch(err => err);
+            return res.render('auth/options', {cBalance:req.user.checkingBalance, sBalance:req.user.savingsBalance, user:req.user.profile.name})
         }else {
             return res.redirect('/fail');
         };

@@ -22,7 +22,6 @@ module.exports = {
                 newUser.profile.name = name;
                 newUser.email = email;
                 newUser.password = password;
-
                 newUser
                 .save()
                 .then((user) => {
@@ -31,6 +30,7 @@ module.exports = {
                     checking.owner = user._id;
                     checking.accountNumber = accountUtils.generateAccountNumber();
                     checking.save()
+                    user.checkingBalance = checking.balance;
                     return user
                 })
                 .then((user) => {
@@ -39,6 +39,8 @@ module.exports = {
                     savings.owner = user._id;
                     savings.accountNumber = accountUtils.generateAccountNumber();
                     savings.save()
+                    user.savingsBalance = savings.balance;
+                    user.save()
                     return user
                 })
                 .then(user => {

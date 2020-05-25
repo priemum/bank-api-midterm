@@ -1,3 +1,12 @@
+const User = require('../../users/models/User');
+const Checking = require('../models/Checking');
+const CheckingTrans = require('../models/CheckingTransaction');
+const CheckingStatement = require('../models/CheckingStatement');
+const Savings = require('../models/Savings');
+const SavingsTrans = require('../models/SavingsTransaction');
+const SavingsStatement = require('../models/SavingsStatement');
+
+
 //generate random number inclusive of min and max
 const randomGen = (min, max) => {
     min = Math.ceil(min);
