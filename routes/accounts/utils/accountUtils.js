@@ -7,6 +7,21 @@ const SavingsTrans = require('../models/SavingsTransaction');
 const SavingsStatement = require('../models/SavingsStatement');
 
 
+//update user account balances
+const updateBalances = (user) => {
+    console.log(user)
+    Checking.findOne({owner:user._id})
+        .then((acct) => {
+            user.checkingBalance = acct.balance;
+            console.log(user.checkingBalance)
+        });
+    Savings.findOne({owner:user._id})
+        .then((sAcct) => {
+            user.savingsBalance = sAcct.balance;
+        });
+}
+
+
 //generate random number inclusive of min and max
 const randomGen = (min, max) => {
     min = Math.ceil(min);
@@ -108,5 +123,6 @@ module.exports = {
     generateAccountNumber,
     checkForNumbers,
     alphMonth,
-    adjAmount
+    adjAmount,
+    updateBalances
 }
