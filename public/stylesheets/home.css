@@ -5,73 +5,72 @@
     text-decoration: none;
 }
 
-/* @media (max-width: 500px){ */
-    #app {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 9fr;
-    }
+#app {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 9fr;
+}
 
-    #header {
-        grid-row: 1/2;
-        display: grid;
-        grid-column: 1fr 1fr 1fr;
-        grid-template-rows: 1fr;
-        background-color: dodgerblue;
-    }
+#header {
+    grid-row: 1/2;
+    display: grid;
+    grid-column: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    background-color: dodgerblue;
+}
 
-    #nav {
-        grid-column: 1/2;
-        grid-row: 1/2;
-        text-align: left;
-        padding: 15px 0 10px 10px;
-    }
+#nav {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    text-align: left;
+    padding: 15px 0 10px 10px;
+}
 
-    #title {
-        grid-column: 2/3;
-        grid-row: 1/2;
-        text-align: center;
-        padding: 10px 0 10px 0;
-    }
+#title {
+    grid-column: 2/3;
+    grid-row: 1/2;
+    text-align: center;
+    padding: 10px 0 10px 0;
+}
 
-    #menu {
-        grid-column: 3/4;
-        grid-row: 1/2;
-        text-align: right;
-        padding: 15px 10px 10px 0;
-    }
+#menu {
+    grid-column: 3/4;
+    grid-row: 1/2;
+    text-align: right;
+    padding: 15px 10px 10px 0;
+}
 
-    #main {
-        grid-row: 2/3;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr;
-    }
+#main {
+    grid-row: 2/3;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
 
-    #options {
-        align-self: center;
-        justify-self: center;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(2, 1fr);
-    }
+#options {
+    align-self: center;
+    justify-self: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, 1fr);
+}
 
-    .option {
-        padding: 20px;
-        border: 1px solid grey;
-    }
+.option {
+    padding: 20px;
+    border: 1px solid grey;
+}
 
-    #login {
-        grid-row: 1/2;
-        text-align: center;
-    }
+#login {
+    grid-row: 1/2;
+    text-align: center;
+}
 
-    #register {
-        grid-row: 2/3;
-        text-align: center;
-    }
+#register {
+    grid-row: 2/3;
+    text-align: center;
+}
 
-    .content {
-        display: none;
-        overflow: hidden;
-    }
+.content {
+    display: none;
+    overflow: hidden;
+}
