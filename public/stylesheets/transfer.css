@@ -115,8 +115,8 @@
 }
 
 #options {
-    margin: 20px;
-    align-self: flex-start;
+    margin-top: 20px;
+    height: 280px;
     justify-self: center;
     display: grid;
     grid-template-columns: 1fr;

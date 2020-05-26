@@ -1,26 +1,18 @@
-const User = require('../../users/models/User');
 const Checking = require('../models/Checking');
-const CheckingTrans = require('../models/CheckingTransaction');
-const CheckingStatement = require('../models/CheckingStatement');
 const Savings = require('../models/Savings');
-const SavingsTrans = require('../models/SavingsTransaction');
-const SavingsStatement = require('../models/SavingsStatement');
 
 
 //update user account balances
 const updateBalances = (user) => {
-    console.log(user)
     Checking.findOne({owner:user._id})
         .then((acct) => {
             user.checkingBalance = acct.balance;
-            console.log(user.checkingBalance)
         });
     Savings.findOne({owner:user._id})
         .then((sAcct) => {
             user.savingsBalance = sAcct.balance;
         });
-}
-
+};
 
 //generate random number inclusive of min and max
 const randomGen = (min, max) => {
@@ -63,7 +55,7 @@ const generateAccountNumber = () => {
 //validate input contains only numbers and at most 1 dot
 const checkForNumbers = (val) => {
     if(!val || val === '' || val === ' '){
-        return true
+        return true;
     }
     let f = 0;
     let dot = 0;
@@ -72,7 +64,7 @@ const checkForNumbers = (val) => {
             f++;
         }
         if(i === '.'){
-            dot++
+            dot++;
         }
     }
     return dot > 1 || f > 0;
