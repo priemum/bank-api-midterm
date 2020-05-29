@@ -44,14 +44,15 @@
 
 #errorField {
     grid-row: 1/2;
+    display: inline-flex;
+    flex-wrap: wrap;
     margin: 0;
-    height: 25px;
     text-align: center;
-    padding: 2.5px;
+    justify-self: center;
 }
 
 #options {
-    margin-top: 20px;
+    margin-top: 25px;
     height: 280px;
     justify-self: center;
     display: grid;

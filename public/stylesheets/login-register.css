@@ -40,27 +40,29 @@
     grid-row: 3/4;
     padding-top: 20px;
     display: grid;
-    grid-template-columns: 1fr 6fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: 25px 1fr 1fr 1fr 1fr;
 }
 
 #errorField {
     grid-row: 1/2;
-    grid-column: 2/3;
+    display: inline-flex;
+    flex-wrap: wrap;
     margin: 0;
-    height: 25px;
     text-align: center;
-    padding: 2.5px;
+    justify-self: center;
 }
 
 #form {
     grid-row: 2/4;
-    grid-column: 2/3;
+    display: inline-flex;
     width: 300px;
     font-size: 25px;
     justify-self: center;
     align-content: center;
     justify-content: center;
+    margin-top: 25px;
+    margin-bottom: 10px;
 }
 
 input {
