@@ -21,7 +21,7 @@ router.get('/savings', accountController.savings);
 //render transfer page
 router.get('/transfer', accountController.transferPage);
 
-//post transfer to accounts
+//post transfer between accounts
 router.post('/transfer', accountController.transfer);
 
 //render send money page

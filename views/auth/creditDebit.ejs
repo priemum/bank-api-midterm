@@ -21,6 +21,11 @@
         </div>
             <%- include('../partials/balanceBanners')  %> 
         <div id="main">
+            <div id="errorField">
+                <% if (error !== null){ %>
+                    <p style="color:red; font-size: 20px;"><%= error %> </p>
+                <% } %>
+            </div>
             <div id="options">
                 <form action="/auth/creditDebit" method="POST">
                     <div id="op1" class="option">

@@ -38,7 +38,7 @@
                         <th id="actionAmount">AMOUNT</th>
                         <th id="newBalance">BALANCE</th>
                     </tr>
-                    <% sortedTransactions = sTransactions.sort((a,b) => {let transA = a.date; let transB = b.date; transB - transA}); console.log(sortedTransactions) %> 
+                    <% sortedTransactions = sTransactions.sort((a,b) => {let transA = a.date; let transB = b.date; transB - transA}); %> 
                     <% for(i = sortedTransactions.length - 1; i >= 0; i--){ %>
                         <tr>
                         <td id="actionDate"><%= sortedTransactions[i].date %></td>

@@ -39,7 +39,15 @@
     grid-row: 3/4;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+    grid-template-rows: 25px 1fr;
+}
+
+#errorField {
+    grid-row: 1/2;
+    margin: 0;
+    height: 25px;
+    text-align: center;
+    padding: 2.5px;
 }
 
 #options {

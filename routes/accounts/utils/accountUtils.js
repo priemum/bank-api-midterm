@@ -1,18 +1,12 @@
+const User = require('../../users/models/User');
 const Checking = require('../models/Checking');
+const CheckingTrans = require('../models/CheckingTransaction');
+const CheckingStatement = require('../models/CheckingStatement');
 const Savings = require('../models/Savings');
+const SavingsTrans = require('../models/SavingsTransaction');
+const SavingsStatement = require('../models/SavingsStatement');
+const registerErrors = (arr) => {const errArr = []; for(i of arr){errArr.push(` ${i.msg}`)}; return errArr};
 
-
-//update user account balances
-const updateBalances = (user) => {
-    Checking.findOne({owner:user._id})
-        .then((acct) => {
-            user.checkingBalance = acct.balance;
-        });
-    Savings.findOne({owner:user._id})
-        .then((sAcct) => {
-            user.savingsBalance = sAcct.balance;
-        });
-};
 
 //generate random number inclusive of min and max
 const randomGen = (min, max) => {
@@ -30,44 +24,22 @@ const generateAccountNumber = () => {
     return acctArr.join('');
 };
 
-//check for unique account number
-// const uniqueAccountNumber = () => {
-//     let acctNum = generateAccountNumber();
-//     Checking.findOne({accountNumber: acctNum})
-//         .then(acct => {
-//             if(acct){
-//                 uniqueAccountNumber();
-//             } else {
-//                 Savings.find({acctNum})
-//                 .then(acct => {
-//                     if(acct){
-//                         uniqueAccountNumber();
-//                     } else {
-//                         return acctNum;
-//                     }
-//                 })
-//                 .catch(err => reject(err));
-//             }
-//         })
-//         .catch(err => reject(err));
-// };
-
 //validate input contains only numbers and at most 1 dot
 const checkForNumbers = (val) => {
-    if(!val || val === '' || val === ' '){
-        return true;
+    if(val.trim() === ''){
+        return true
     }
-    let f = 0;
+    let notNumbers = 0;
     let dot = 0;
     for (const i of val){
         if(isNaN(Number(i)) && i !== '.'){
-            f++;
+            notNumbers++;
         }
         if(i === '.'){
-            dot++;
+            dot++
         }
     }
-    return dot > 1 || f > 0;
+    return dot > 1 || notNumbers > 0;
 };
 
 
@@ -116,5 +88,5 @@ module.exports = {
     checkForNumbers,
     alphMonth,
     adjAmount,
-    updateBalances
+    registerErrors
 }

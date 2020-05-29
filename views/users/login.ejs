@@ -28,6 +28,11 @@
             </div>
         </div>
         <div id="main">
+            <div id="errorField">
+                <% if (error !== null){ %>
+                    <p style="color:red; font-size: 20px;"><%= error %> </p>
+                <% } %>
+            </div>
             <div id="form">
                 <form role="form" method="POST" action="/api/users/login">
                         <h2>Please log in</h2>

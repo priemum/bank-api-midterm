@@ -7,9 +7,7 @@ const UserSchema = new mongoose.Schema({
     profile:{
         name:{type:String, default:''}
     },
-    address:{type:String, default:'(Please update address)'},
-    checkingBalance:{type:String, default:''},
-    savingsBalance:{type:String, default:''}
+    address:{type:String, default:'(Please update address)'}
 });
 
 UserSchema.pre('save', function(next){

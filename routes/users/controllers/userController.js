@@ -6,17 +6,18 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const accountUtils = require('../../accounts/utils/accountUtils')
 
+
 module.exports = {
     //register new user
     register: (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.render('auth/error', { error: errors.array() });
+            return res.render('users/register', {error:accountUtils.registerErrors(errors.array())});
         }
         const { name, email, password } = req.body;
         User.findOne({ email }).then(user => {
             if (user) {
-                return res.render('auth/error', {error:'User exists'});
+                return res.render('users/register', {error:'User exists'});
             } else {
                 const newUser = new User();
                 newUser.profile.name = name;
@@ -150,19 +151,19 @@ module.exports = {
 
     //render login page
     loginPage:(req, res) => {
-        return res.render('users/login', { errors: req.flash('errors') });
+        return res.render('users/login', { error:null});
     },
 
     //login user
     login: passport.authenticate('local-login', {
         successRedirect: '/auth/options',
-        failureRedirect: '/api/users/loginError',
+        failureRedirect: 'loginError',
         failureFlash: true
     }),
 
     //render login error page
     loginError: (req, res) => {
-        res.render('auth/error', {error: 'Please check that you are registered and are using the correct email address and password.'})
+        res.render('users/login', {error: 'Please check that you are registered and are using the correct email address and password.'})
     },
 
     //logout user, end session

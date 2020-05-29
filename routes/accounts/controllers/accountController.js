@@ -13,26 +13,42 @@ module.exports = {
 
     //render options page
     options: (req, res) => {
-        const user = req.user;
         if(req.isAuthenticated()){
-            setTimeout(() => {
-                return res.render('auth/options', {cBalance:user.checkingBalance, sBalance:user.savingsBalance, user:user.profile.name})
-            }, 100);
-            utils.updateBalances(user);
-        }else {
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+                .then((acct) => {
+                    cBalance = acct.balance;
+                    return cBalance
+                    .then(Savings.findOne({owner:id})
+                        .then(sAcct =>{
+                            sBalance = sAcct.balance;
+                            return res.render('auth/options', {cBalance, sBalance, user:req.user.profile.name});
+                        })
+                    )
+                })
+                .catch(err => err);
+        } else {
             return res.redirect('/fail');
         };
     },
 
     //render credit and debit page
     creditDebitPage: (req, res) => {
-        const user = req.user;
         if(req.isAuthenticated()){
-            setTimeout(() => {
-                return res.render('auth/creditDebit', {cBalance:user.checkingBalance, sBalance:user.savingsBalance, user:user.profile.name, error:null})
-            }, 100);
-            utils.updateBalances(user);
-        }else {
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+                .then((acct) => {
+                    cBalance = acct.balance;
+                    return cBalance
+                    .then(Savings.findOne({owner:id})
+                        .then(sAcct =>{
+                            sBalance = sAcct.balance;
+                            return res.render('auth/creditDebit', {cBalance, sBalance, user:req.user.profile.name, error:null});
+                        })
+                    )
+                })
+                .catch(err => err);
+        } else {
             return res.redirect('/fail');
         };
     },
@@ -43,62 +59,62 @@ module.exports = {
         const id = req.user._id;
         const adjDolAmt = utils.adjAmount(dollarAmount);
         if(utils.checkForNumbers(dollarAmount)){
-            return res.render('auth/error', {error:'Please enter dollar amount as a number. Example: 100.00'})
+            return res.render('auth/creditDebit', {cBalance, sBalance, user:req.user.profile.name, error:'Please enter dollar amount as a number. Example: 100.00'});
         }
         if(!description){
-            return res.render('auth/error', {error:'Please enter a description of transaction for records.'})
+            return res.render('auth/creditDebit', {cBalance, sBalance, user:req.user.profile.name, error:'Please enter a description of transaction for records.'});
         }
         if(acctChoice === 'checking'){
             Checking.findOne({owner:id})
                 .then((acct) => {
                     if(debtOrCred === 'withdrawal'){
                         if(Number(acct.balance) - Number(adjDolAmt) < 0){
-                            return res.render('auth/error', {error:'Cannot complete transaction. Not enough funds.'});
+                            return res.render('auth/creditDebit', {cBalance, sBalance, user:req.user.profile.name, error:'Cannot complete transaction. Not enough funds.'});
                         } else {
                             acct.balance = (Number(acct.balance) - Number(adjDolAmt)).toFixed(2);
                         };
-                    } else if(debtOrCred === 'deposit'){
+                    } else if (debtOrCred === 'deposit'){
                         acct.balance = (Number(acct.balance) + Number(adjDolAmt)).toFixed(2);
                     };
                     acct.save()
                     .then((acct) => {
-                    const newTrans = new CheckingTrans();
-                    newTrans.owner = acct._id;
-                    newTrans.transType = debtOrCred;
-                    newTrans.description = description;
-                    newTrans.amount = adjDolAmt;
-                    newTrans.newBalance = acct.balance;
-                    newTrans.save()
-                    .then(() => {
-                        return res.redirect('/auth/creditDebit');
+                        const newTrans = new CheckingTrans();
+                        newTrans.owner = acct._id;
+                        newTrans.transType = debtOrCred;
+                        newTrans.description = description;
+                        newTrans.amount = adjDolAmt;
+                        newTrans.newBalance = acct.balance;
+                        newTrans.save()
+                        .then(() => {
+                            return res.redirect('/auth/creditDebit');
+                        })
+                        .catch(err => {
+                            next (err);
+                        });
                     })
-                    .catch(err => {
-                        next (err);
-                    });
-                })
             })
-        } else if(acctChoice === 'savings'){
+        } else if (acctChoice === 'savings'){
             const id = req.user._id;
             Savings.findOne({owner:id})
                 .then((acct) => {
                     if(debtOrCred === 'withdrawal'){
-                            if(Number(acct.balance) - Number(adjDolAmt) < 0){
-                                return res.render('auth/error', {error:'Cannot complete transaction. Not enough funds.'});
-                            } else {
-                                acct.balance = (Number(acct.balance) - Number(adjDolAmt)).toFixed(2);
-                            };
-                    } else if(debtOrCred === 'deposit'){
+                        if(Number(acct.balance) - Number(adjDolAmt) < 0){
+                            return res.render('auth/creditDebit', {cBalance, sBalance, user:req.user.profile.name, error:'Cannot complete transaction. Not enough funds.'});
+                        } else {
+                            acct.balance = (Number(acct.balance) - Number(adjDolAmt)).toFixed(2);
+                        };
+                    } else if (debtOrCred === 'deposit'){
                         acct.balance = (Number(acct.balance) + Number(adjDolAmt)).toFixed(2);
                     };
                     acct.save()
                     .then((acct) => {
-                    const newTrans = new SavingsTrans();
-                    newTrans.owner = acct._id;
-                    newTrans.transType = debtOrCred;
-                    newTrans.description = description;
-                    newTrans.amount = adjDolAmt;
-                    newTrans.newBalance = acct.balance;
-                    newTrans.save()
+                        const newTrans = new SavingsTrans();
+                        newTrans.owner = acct._id;
+                        newTrans.transType = debtOrCred;
+                        newTrans.description = description;
+                        newTrans.amount = adjDolAmt;
+                        newTrans.newBalance = acct.balance;
+                        newTrans.save()
                     .then(() => {
                         return res.redirect('/auth/creditDebit');
                     })
@@ -112,12 +128,20 @@ module.exports = {
     
     //render transfer page
     transferPage: (req, res) => {
-        const user = req.user
         if(req.isAuthenticated()){
-            setTimeout(() => {
-                return res.render('auth/transfer', {cBalance:user.checkingBalance, sBalance:user.savingsBalance, user:user.profile.name, error:null})
-            }, 100);
-            utils.updateBalances(user);
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+            .then((acct) => {
+                cBalance = acct.balance;
+                return cBalance
+                .then(Savings.findOne({owner:id})
+                    .then(sAcct =>{
+                        sBalance = sAcct.balance;
+                        return res.render('auth/transfer', {cBalance, sBalance, user:req.user.profile.name, error:null})
+                    })
+                )
+            })
+            .catch(err => err);
         }else {
             return res.redirect('/fail');
         };
@@ -128,7 +152,7 @@ module.exports = {
         const {transAmount, transFrom, transTo} = req.body;
         const adjAmount = utils.adjAmount(transAmount);
         if(utils.checkForNumbers(transAmount)){
-            return res.render('auth/error', {error:'Please enter transfer amount as a number. Example: 100.00'})
+            return res.render('auth/transfer', {cBalance, sBalance, user:req.user.profile.name, error:'Please enter transfer amount as a number. Example: 100.00'})
         }
         if(transFrom === 'checking'){
             const id = req.user._id;
@@ -136,7 +160,7 @@ module.exports = {
                 .then((acct) => {
                     if(transTo === 'savings'){
                             if(Number(acct.balance) - Number(adjAmount) < 0){
-                                return res.render('auth/error', {error:'Cannot complete transaction. Not enough funds.'});
+                                return res.render('auth/transfer', {cBalance, sBalance, user:req.user.profile.name, error:'Cannot complete transaction. Not enough funds.'});
                             } else {
                                 acct.balance = (Number(acct.balance) - Number(adjAmount)).toFixed(2);
                             };
@@ -170,7 +194,7 @@ module.exports = {
                                 next (err);
                             });
                         })
-                    } else if(transTo === 'checking'){
+                    } else if (transTo === 'checking'){
                         return res.redirect('/auth/transfer');
                     };
                     
@@ -181,7 +205,7 @@ module.exports = {
             .then((acct) => {
                 if(transTo === 'checking'){
                     if(Number(acct.balance) - Number(adjAmount) < 0){
-                        return res.render('auth/error', {error:'Cannot complete transaction. Not enough funds.'})
+                        return res.render('auth/transfer', {cBalance, sBalance, user:req.user.profile.name, error:'Cannot complete transaction. Not enough funds.'})
                     } else {
                         acct.balance = (Number(acct.balance) - Number(adjAmount)).toFixed(2);
                     };
@@ -196,7 +220,7 @@ module.exports = {
                                 newTrans.description = 'transfer from savings';
                                 newTrans.amount = adjAmount;
                                 newTrans.newBalance = cAcct.balance;
-                                newTrans.save();
+                                newTrans.save()
                             })
                         });
                     acct.save()
@@ -215,7 +239,7 @@ module.exports = {
                             next (err);
                         });
                     })
-                } else if(transTo === 'savings'){
+                } else if (transTo === 'savings'){
                     return res.redirect('/auth/transfer');
                 };
                 
@@ -225,17 +249,19 @@ module.exports = {
 
     //render checking account history
     checking: (req, res) => {
-        const user = req.user
         if(req.isAuthenticated()){
-            Checking.findOne({owner:req.user._id})
+            const id = req.user._id;
+            Checking.findOne({owner:id})
             .then((acct) => {
+                const cBalance = acct.balance;
                 CheckingTrans.find({owner:acct._id})
-                .then((cTransactions) => {
-                    setTimeout(() => {
-                        return res.render('auth/checking', {cTransactions, cBalance:user.checkingBalance, sBalance:user.savingsBalance, user:user.profile.name, error:null})
-                    }, 100);
-                    utils.updateBalances(user);
-                })
+                .then(cTransactions =>
+                    Savings.findOne({owner:id})
+                    .then(sAcct =>{
+                        const sBalance = sAcct.balance;
+                        return res.render('auth/checking', {cTransactions, cBalance, sBalance, user:req.user.profile.name})
+                    })
+                )
             })
             .catch(err => err);
         } else {
@@ -245,18 +271,19 @@ module.exports = {
 
     //render savings account history
     savings: (req, res) => {
-        const user = req.user
         if(req.isAuthenticated()){
             const id = req.user._id;
             Savings.findOne({owner:id})
             .then((acct) => {
+                const sBalance = acct.balance;
                 SavingsTrans.find({owner:acct._id})
-                .then((sTransactions) => {
-                    setTimeout(() => {
-                        return res.render('auth/savings', {sTransactions, cBalance:user.checkingBalance, sBalance:user.savingsBalance, user:user.profile.name})
-                    }, 100);
-                    utils.updateBalances(user)
-                })
+                .then(sTransactions =>
+                    Checking.findOne({owner:id})
+                    .then(cAcct =>{
+                        const cBalance = cAcct.balance;
+                        return res.render('auth/savings', {sTransactions, cBalance, sBalance, user:req.user.profile.name})
+                    })
+                )
             })
             .catch(err => err);
         } else {
@@ -266,12 +293,20 @@ module.exports = {
 
     //render send money page
     sendMoneyPage: (req, res) => {
-        const user = req.user
         if(req.isAuthenticated()){
-            setTimeout(() => {
-                return res.render('auth/sendMoney', {cBalance:user.checkingBalance, sBalance:user.savingsBalance, user:user.profile.name})
-            }, 100);
-            utils.updateBalances(user)
+            const id = req.user._id;
+            Checking.findOne({owner:id})
+            .then((acct) => {
+                cBalance = acct.balance;
+                return cBalance
+                .then(Savings.findOne({owner:id})
+                    .then(sAcct =>{
+                        sBalance = sAcct.balance;
+                        return res.render('auth/sendMoney', {cBalance, sBalance, user:req.user.profile.name, error:null})
+                    })
+                )
+            })
+            .catch(err => err);
         }else {
             return res.redirect('/fail');
         };
@@ -282,15 +317,15 @@ module.exports = {
         const {dollarAmount, sendTo, sendFrom, } = req.body;
         const adjAmount = utils.adjAmount(dollarAmount);
         if(utils.checkForNumbers(dollarAmount)){
-            return res.render('auth/error', {error:'Please enter dollar amount as a number. Example: 100.00'})
+            return res.render('auth/sendMoney', {cBalance, sBalance, user:req.user.profile.name, error:'Please enter dollar amount as a number. Example: 100.00'})
         }
         if(!sendTo.includes('@') || !sendTo.includes('.')){
-            return res.render('auth/error', {error:'Please enter send to as a valid email. Example: me@me.com'})
+            return res.render('auth/sendMoney', {cBalance, sBalance, user:req.user.profile.name, error:'Please enter send to as a valid email. Example: me@me.com'})
         }
         User.findOne({email:sendTo})
         .then(user => {
             if(!user){
-            return res.render('auth/error', {error: 'The person you are trying to send to is not in the system.'})
+            return res.render('auth/sendMoney', {cBalance, sBalance, user:req.user.profile.name, error: 'The person you are trying to send to is not in the system.'})
         } else {
         if(sendFrom === 'checking'){
             const id = req.user._id;
@@ -298,7 +333,7 @@ module.exports = {
                 .then((acct) => {
                     if(sendTo){
                         if(Number(acct.balance) - Number(adjAmount) < 0){
-                            return res.render('auth/error', {error:'Cannot complete transaction. Not enough funds.'});
+                            return res.render('auth/sendMoney', {cBalance, sBalance, user:req.user.profile.name, error:'Cannot complete transaction. Not enough funds.'});
                         } else {
                             acct.balance = (Number(acct.balance) - Number(adjAmount)).toFixed(2);
                         };
@@ -341,13 +376,13 @@ module.exports = {
                         });
                     } 
                 })
-        } else if(sendFrom === 'savings'){
+        } else if (sendFrom === 'savings'){
             const id = req.user._id;
             Savings.findOne({owner:id})
                 .then((acct) => {
                     if(sendTo){
                         if(Number(acct.balance) - Number(adjAmount) < 0){
-                            return res.render('auth/error', {error:'Cannot complete transaction. Not enough funds.'});
+                            return res.render('auth/sendMoney', {cBalance, sBalance, user:req.user.profile.name, error:'Cannot complete transaction. Not enough funds.'});
                         } else {
                             acct.balance = (Number(acct.balance) - Number(adjAmount)).toFixed(2);
                         };
@@ -475,11 +510,11 @@ module.exports = {
                     })
                     .then(statements => {
                         if(count < 12 && dupCheck === 0){
-                        const newStatement = new CheckingStatement();
-                        newStatement.owner = cAccount._id;
-                        newStatement.month = utils.alphMonth(selectMonth);
-                        newStatement.transactions = [...transArray];
-                        newStatement.save()
+                            const newStatement = new CheckingStatement();
+                            newStatement.owner = cAccount._id;
+                            newStatement.month = utils.alphMonth(selectMonth);
+                            newStatement.transactions = [...transArray];
+                            newStatement.save()
                         }
                     })
                 })
@@ -517,11 +552,11 @@ module.exports = {
                     })
                     .then(statements => {
                         if(count < 12 && dupCheck === 0){
-                        const newStatement = new SavingsStatement();
-                        newStatement.owner = sAccount._id;
-                        newStatement.month = utils.alphMonth(selectMonth);
-                        newStatement.transactions = [...transArray];
-                        newStatement.save()
+                            const newStatement = new SavingsStatement();
+                            newStatement.owner = sAccount._id;
+                            newStatement.month = utils.alphMonth(selectMonth);
+                            newStatement.transactions = [...transArray];
+                            newStatement.save()
                         }
                     })
                 })

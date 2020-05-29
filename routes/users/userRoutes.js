@@ -7,7 +7,7 @@ const userValidation = require('./utils/userValidation');
 
 // render register page
 router.get('/register', (req, res) => {
-  res.render('users/register', { errors: req.flash('errors') });
+  res.render('users/register', { error:null});
 });
 
 //register new user
