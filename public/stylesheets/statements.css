@@ -37,7 +37,8 @@
 
 #main {
     grid-row: 3/4;
-    display: block;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
 }
 
 #mainTop {
@@ -136,4 +137,34 @@ input, select, button {
     justify-content: center;
     align-content: center;
     padding: 2px;
+}
+
+@media (max-width: 700px) {
+    #main {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+
+    #mainBottom {
+        grid-row: 2/3;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #checkingList {
+        display: grid;
+        justify-self: center;
+        text-align: center;
+        justify-items: center;
+        margin-bottom: 20px;
+    }
+
+    #savingsList {
+        display: grid;
+        justify-self: center;
+        text-align: center;
+        justify-items: center;
+        margin-bottom: 30px;
+    }
 }
