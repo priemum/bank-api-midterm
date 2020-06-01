@@ -119,22 +119,21 @@ input, select, button {
 }
 
 .delete {
-    display: inline-block;
+    display: block;
     width: 60px;
     height: 25px;
     padding: 5px;
 }
 
 .month {
-    display: inline-block;
+    display: block;
     width: 100px;
     height: 25px;
     padding: 5px;
 }
 
 .viewBtn {
-    display: inline-block;
-    /* margin: 2px 0px; */
+    display: block;
     width: 60px;
     height: 25px;
     padding: 5px;
@@ -169,7 +168,7 @@ input, select, button {
         margin-bottom: 30px;
     }
 
-    .viewBtn {
+    /* .viewBtn {
         margin-right: 5px;
-    }
+    } */
 }
