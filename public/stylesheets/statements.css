@@ -112,7 +112,7 @@ input, select, button {
     height: 35px;
     display: inline-flex;
     justify-content: space-between;
-    align-content: center;
+    align-items: center;
     padding: 2px;
     margin: 1px;
     border: 1px solid black;
@@ -120,7 +120,7 @@ input, select, button {
 
 .delete {
     display: inline-block;
-    margin: 2px 0px;
+    /* margin: 2px 0px; */
     width: 60px;
     height: 25px;
     padding: 5px;
@@ -128,7 +128,7 @@ input, select, button {
 
 .month {
     display: inline-block;
-    margin: 2px 0px;
+    /* margin: 2px 0px; */
     width: 100px;
     height: 25px;
     padding: 5px;
@@ -136,7 +136,7 @@ input, select, button {
 
 .viewBtn {
     display: inline-block;
-    margin: 2px 0px;
+    /* margin: 2px 0px; */
     width: 60px;
     height: 25px;
     /* justify-content: center;
