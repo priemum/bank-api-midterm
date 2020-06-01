@@ -109,22 +109,26 @@ input, select, button {
     align-self: center;
     justify-self: center;
     width: 300px;
-    height: 30px;
+    height: 35px;
     display: inline-flex;
     justify-content: space-between;
+    align-content: center;
+    padding: 2px;
     margin: 1px;
     border: 1px solid black;
 }
 
 .delete {
     display: inline-block;
-    width: 30px;
+    margin: 2px 0px;
+    width: 60px;
     height: 25px;
     padding: 5px;
 }
 
 .month {
     display: inline-block;
+    margin: 2px 0px;
     width: 100px;
     height: 25px;
     padding: 5px;
@@ -133,11 +137,11 @@ input, select, button {
 .viewBtn {
     display: inline-block;
     margin: 2px 0px;
-    width: 50px;
+    width: 60px;
     height: 25px;
-    justify-content: center;
-    align-content: center;
-    padding: 2px;
+    /* justify-content: center;
+    align-content: center; */
+    padding: 5px;
 }
 
 @media (max-width: 700px) {
