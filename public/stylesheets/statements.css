@@ -113,31 +113,24 @@ input, select, button {
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
-    /* align-content: center; */
     padding: 2px;
     margin: 1px;
     border: 1px solid black;
 }
 
 .delete {
-    /* display: block; */
     width: 60px;
     height: 25px;
-    /* padding: 5px; */
 }
 
 .month {
-    /* display: block; */
     width: 100px;
     height: 25px;
-    /* padding: 5px; */
 }
 
 .viewBtn {
-    /* display: block; */
     width: 60px;
     height: 25px;
-    /* padding: 5px; */
 }
 
 @media (max-width: 700px) {
@@ -169,7 +162,7 @@ input, select, button {
         margin-bottom: 30px;
     }
 
-    /* .viewBtn {
+    .viewBtn {
         margin-right: 5px;
-    } */
+    }
 }
