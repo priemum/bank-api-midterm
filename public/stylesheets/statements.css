@@ -161,7 +161,9 @@ input, select, button {
         justify-items: center;
         margin-bottom: 30px;
     }
+}
 
+@media (max-width: 500px) {
     .viewBtn {
         margin-right: 10px;
     }
