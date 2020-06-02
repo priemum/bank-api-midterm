@@ -133,6 +133,12 @@ input, select, button {
     height: 25px;
 }
 
+@media (max-width: 750px) {
+    .viewBtn {
+        margin-right: 10px;
+    }
+}
+
 @media (max-width: 700px) {
     #main {
         display: grid;
@@ -160,11 +166,5 @@ input, select, button {
         text-align: center;
         justify-items: center;
         margin-bottom: 30px;
-    }
-}
-
-@media (max-width: 500px) {
-    .viewBtn {
-        margin-right: 10px;
     }
 }
