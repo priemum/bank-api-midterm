@@ -83,10 +83,27 @@ const adjAmount = (dollarAmount) => {
     return Number(dollarAmount).toFixed(2);
 };
 
+//get account balances
+const getBalances = () => {
+    const id = req.user._id;
+            Checking.findOne({owner:id})
+                .then((acct) => {
+                    cBalance = acct.balance;
+                    return cBalance
+                    .then(Savings.findOne({owner:id})
+                        .then(sAcct =>{
+                            sBalance = sAcct.balance;
+                            return sBalance;
+                        })
+                    )
+                })
+};
+
 module.exports = {
     generateAccountNumber,
     checkForNumbers,
     alphMonth,
     adjAmount,
-    registerErrors
+    registerErrors,
+    getBalances
 }

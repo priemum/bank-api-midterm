@@ -14,19 +14,8 @@ module.exports = {
     //render options page
     options: (req, res) => {
         if(req.isAuthenticated()){
-            const id = req.user._id;
-            Checking.findOne({owner:id})
-                .then((acct) => {
-                    cBalance = acct.balance;
-                    return cBalance
-                    .then(Savings.findOne({owner:id})
-                        .then(sAcct =>{
-                            sBalance = sAcct.balance;
-                            return res.render('auth/options', {cBalance, sBalance, user:req.user.profile.name});
-                        })
-                    )
-                })
-                .catch(err => err);
+            utils.getBalances;
+            return res.render('auth/options', {cBalance, sBalance, user:req.user.profile.name});
         } else {
             return res.redirect('/fail');
         };
@@ -35,19 +24,8 @@ module.exports = {
     //render credit and debit page
     creditDebitPage: (req, res) => {
         if(req.isAuthenticated()){
-            const id = req.user._id;
-            Checking.findOne({owner:id})
-                .then((acct) => {
-                    cBalance = acct.balance;
-                    return cBalance
-                    .then(Savings.findOne({owner:id})
-                        .then(sAcct =>{
-                            sBalance = sAcct.balance;
-                            return res.render('auth/creditDebit', {cBalance, sBalance, user:req.user.profile.name, error:null});
-                        })
-                    )
-                })
-                .catch(err => err);
+            utils.getBalances;
+            return res.render('auth/creditDebit', {cBalance, sBalance, user:req.user.profile.name, error:null});
         } else {
             return res.redirect('/fail');
         };
@@ -129,19 +107,8 @@ module.exports = {
     //render transfer page
     transferPage: (req, res) => {
         if(req.isAuthenticated()){
-            const id = req.user._id;
-            Checking.findOne({owner:id})
-            .then((acct) => {
-                cBalance = acct.balance;
-                return cBalance
-                .then(Savings.findOne({owner:id})
-                    .then(sAcct =>{
-                        sBalance = sAcct.balance;
-                        return res.render('auth/transfer', {cBalance, sBalance, user:req.user.profile.name, error:null})
-                    })
-                )
-            })
-            .catch(err => err);
+            utils.getBalances;
+            return res.render('auth/transfer', {cBalance, sBalance, user:req.user.profile.name, error:null})
         }else {
             return res.redirect('/fail');
         };
@@ -250,20 +217,8 @@ module.exports = {
     //render checking account history
     checking: (req, res) => {
         if(req.isAuthenticated()){
-            const id = req.user._id;
-            Checking.findOne({owner:id})
-            .then((acct) => {
-                const cBalance = acct.balance;
-                CheckingTrans.find({owner:acct._id})
-                .then(cTransactions =>
-                    Savings.findOne({owner:id})
-                    .then(sAcct =>{
-                        const sBalance = sAcct.balance;
-                        return res.render('auth/checking', {cTransactions, cBalance, sBalance, user:req.user.profile.name})
-                    })
-                )
-            })
-            .catch(err => err);
+            utils.getBalances;
+            return res.render('auth/checking', {cTransactions, cBalance, sBalance, user:req.user.profile.name})
         } else {
             return res.redirect('/fail');
         };
@@ -272,20 +227,8 @@ module.exports = {
     //render savings account history
     savings: (req, res) => {
         if(req.isAuthenticated()){
-            const id = req.user._id;
-            Savings.findOne({owner:id})
-            .then((acct) => {
-                const sBalance = acct.balance;
-                SavingsTrans.find({owner:acct._id})
-                .then(sTransactions =>
-                    Checking.findOne({owner:id})
-                    .then(cAcct =>{
-                        const cBalance = cAcct.balance;
-                        return res.render('auth/savings', {sTransactions, cBalance, sBalance, user:req.user.profile.name})
-                    })
-                )
-            })
-            .catch(err => err);
+            utils.getBalances;
+            return res.render('auth/savings', {sTransactions, cBalance, sBalance, user:req.user.profile.name})
         } else {
             return res.redirect('/fail');
         };
@@ -294,19 +237,8 @@ module.exports = {
     //render send money page
     sendMoneyPage: (req, res) => {
         if(req.isAuthenticated()){
-            const id = req.user._id;
-            Checking.findOne({owner:id})
-            .then((acct) => {
-                cBalance = acct.balance;
-                return cBalance
-                .then(Savings.findOne({owner:id})
-                    .then(sAcct =>{
-                        sBalance = sAcct.balance;
-                        return res.render('auth/sendMoney', {cBalance, sBalance, user:req.user.profile.name, error:null})
-                    })
-                )
-            })
-            .catch(err => err);
+            utils.getBalances;
+            return res.render('auth/sendMoney', {cBalance, sBalance, user:req.user.profile.name, error:null})
         }else {
             return res.redirect('/fail');
         };
