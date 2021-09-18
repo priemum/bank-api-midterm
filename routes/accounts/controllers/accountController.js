@@ -14,7 +14,8 @@ module.exports = {
     //render options page
     options: (req, res) => {
         if(req.isAuthenticated()){
-            utils.getBalances;
+            const id = req.user._id;
+            utils.getBalances(id);
             return res.render('auth/options', {cBalance, sBalance, user:req.user.profile.name});
         } else {
             return res.redirect('/fail');
@@ -24,7 +25,8 @@ module.exports = {
     //render credit and debit page
     creditDebitPage: (req, res) => {
         if(req.isAuthenticated()){
-            utils.getBalances;
+            const id = req.user._id;
+            utils.getBalances(id);
             return res.render('auth/creditDebit', {cBalance, sBalance, user:req.user.profile.name, error:null});
         } else {
             return res.redirect('/fail');
@@ -107,7 +109,8 @@ module.exports = {
     //render transfer page
     transferPage: (req, res) => {
         if(req.isAuthenticated()){
-            utils.getBalances;
+            const id = req.user._id;
+            utils.getBalances(id);
             return res.render('auth/transfer', {cBalance, sBalance, user:req.user.profile.name, error:null})
         }else {
             return res.redirect('/fail');
@@ -155,6 +158,7 @@ module.exports = {
                             newTrans.newBalance = acct.balance;
                             newTrans.save()
                             .then(() => {
+                                utils.getBalances(id);
                                 return res.redirect('/auth/transfer');
                             })
                             .catch(err => {
@@ -200,6 +204,7 @@ module.exports = {
                         newTrans.newBalance = acct.balance;
                         newTrans.save()
                         .then(() => {
+                            utils.getBalances(id);
                             return res.redirect('/auth/transfer');
                         })
                         .catch(err => {
@@ -215,20 +220,42 @@ module.exports = {
     },
 
     //render checking account history
-    checking: (req, res) => {
+    checking: (req, res, next) => {
         if(req.isAuthenticated()){
-            utils.getBalances;
-            return res.render('auth/checking', {cTransactions, cBalance, sBalance, user:req.user.profile.name})
+            const id = req.user._id;
+            Checking.findOne({owner: id})
+            .then(acct => {
+                CheckingTrans.find({owner: acct._id})
+                .then(transactions => {
+                    const cTransactions = transactions;
+                    utils.getBalances(id);
+                    return res.render('auth/checking', {cTransactions, cBalance, sBalance, user:req.user.profile.name})
+                })
+            })
+                .catch(err => {
+                    next (err);
+                })
         } else {
             return res.redirect('/fail');
         };
     },
 
     //render savings account history
-    savings: (req, res) => {
+    savings: (req, res, next) => {
         if(req.isAuthenticated()){
-            utils.getBalances;
-            return res.render('auth/savings', {sTransactions, cBalance, sBalance, user:req.user.profile.name})
+            const id = req.user._id;
+            Savings.findOne({owner: id})
+            .then(acct => {
+                SavingsTrans.find({owner: acct._id})
+                .then(transactions => {
+                    const sTransactions = transactions;
+                    utils.getBalances(id);
+                    return res.render('auth/savings', {sTransactions, cBalance, sBalance, user:req.user.profile.name})
+                })
+            })
+            .catch(err => {
+                next (err);
+            })
         } else {
             return res.redirect('/fail');
         };
@@ -237,7 +264,8 @@ module.exports = {
     //render send money page
     sendMoneyPage: (req, res) => {
         if(req.isAuthenticated()){
-            utils.getBalances;
+            const id = req.user._id;
+            utils.getBalances(id);
             return res.render('auth/sendMoney', {cBalance, sBalance, user:req.user.profile.name, error:null})
         }else {
             return res.redirect('/fail');
